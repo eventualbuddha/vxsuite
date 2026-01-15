@@ -18,11 +18,11 @@ import {
 import { safeParseJson } from './generic';
 
 interface AuthSettings {
-  readonly arePollWorkerCardPinsEnabled: boolean;
-  readonly inactiveSessionTimeLimitMinutes: InactiveSessionTimeLimitMinutes;
-  readonly numIncorrectPinAttemptsAllowedBeforeCardLockout: NumIncorrectPinAttemptsAllowedBeforeCardLockout;
-  readonly overallSessionTimeLimitHours: OverallSessionTimeLimitHours;
-  readonly startingCardLockoutDurationSeconds: StartingCardLockoutDurationSeconds;
+  arePollWorkerCardPinsEnabled: boolean;
+  inactiveSessionTimeLimitMinutes: InactiveSessionTimeLimitMinutes;
+  numIncorrectPinAttemptsAllowedBeforeCardLockout: NumIncorrectPinAttemptsAllowedBeforeCardLockout;
+  overallSessionTimeLimitHours: OverallSessionTimeLimitHours;
+  startingCardLockoutDurationSeconds: StartingCardLockoutDurationSeconds;
 }
 
 const AuthSettingsSchema: z.ZodType<AuthSettings> = z.object({
@@ -35,9 +35,9 @@ const AuthSettingsSchema: z.ZodType<AuthSettings> = z.object({
 });
 
 export interface MarkThresholds {
-  readonly marginal: number;
-  readonly definite: number;
-  readonly writeInTextArea?: number;
+  marginal: number;
+  definite: number;
+  writeInTextArea?: number;
 }
 
 export const MarkThresholdsSchema: z.ZodSchema<MarkThresholds> = z
@@ -57,44 +57,44 @@ export const MarkThresholdsSchema: z.ZodSchema<MarkThresholds> = z
  * (and therefore not needing to reprint ballots, for example).
  */
 export interface SystemSettings {
-  readonly allowOfficialBallotsInTestMode?: boolean;
-  readonly auth: AuthSettings;
-  readonly markThresholds: MarkThresholds;
-  readonly bitonalThreshold?: number;
-  readonly adminAdjudicationReasons: readonly AdjudicationReason[];
-  readonly centralScanAdjudicationReasons: readonly AdjudicationReason[];
-  readonly precinctScanAdjudicationReasons: readonly AdjudicationReason[];
-  readonly disallowCastingOvervotes: boolean;
-  readonly precinctScanEnableShoeshineMode?: boolean;
+  allowOfficialBallotsInTestMode?: boolean;
+  auth: AuthSettings;
+  markThresholds: MarkThresholds;
+  bitonalThreshold?: number;
+  adminAdjudicationReasons: AdjudicationReason[];
+  centralScanAdjudicationReasons: AdjudicationReason[];
+  precinctScanAdjudicationReasons: AdjudicationReason[];
+  disallowCastingOvervotes: boolean;
+  precinctScanEnableShoeshineMode?: boolean;
 
   /**
    * Includes redundant metadata in cast vote record reports, increasing export size and
    * import/export time (required for CDF).
    */
-  readonly castVoteRecordsIncludeRedundantMetadata?: boolean;
+  castVoteRecordsIncludeRedundantMetadata?: boolean;
 
   /**
    * Disables vertical streak detection when scanning. This should only be used
    * as a workaround in case the ballots have a design that triggers false
    * positives.
    */
-  readonly disableVerticalStreakDetection?: boolean;
+  disableVerticalStreakDetection?: boolean;
 
   /**
    * Enables quick results reporting and provides the server URL to post results to.
    */
-  readonly quickResultsReportingUrl?: string;
+  quickResultsReportingUrl?: string;
 
   /**
    * Turns on the VxScan feature to read ballot IDs from HMPB QR codes, encrypt
    * them, and export them to CVRs (to be used for post-election auditing).
    */
-  readonly precinctScanEnableBallotAuditIds?: boolean;
+  precinctScanEnableBallotAuditIds?: boolean;
 
   /**
    * Enables BMD ballot scanning on VxScan. If unspecified, BMD ballots will be rejected on VxScan.
    */
-  readonly precinctScanEnableBmdBallotScanning?: boolean;
+  precinctScanEnableBmdBallotScanning?: boolean;
 
   /**
    * Disables the VxScan alarms triggered when USB drives are removed or the scanner cover is
@@ -103,7 +103,7 @@ export interface SystemSettings {
    * unnecessary worry in a polling place. We're accordingly giving election officials the option
    * to disable these alarms completely.
    */
-  readonly precinctScanDisableAlarms?: boolean;
+  precinctScanDisableAlarms?: boolean;
 
   /**
    * We detect the print scale of ballots and reject those with a detected scale less than
@@ -111,19 +111,19 @@ export interface SystemSettings {
    * that are printed at too low of a scale. This setting allows overriding that default value. The
    * check can be essentially disabled by setting this value to 0.
    */
-  readonly minimumDetectedBallotScaleOverride?: number;
+  minimumDetectedBallotScaleOverride?: number;
 
   /**
    * When enabled, voters may select select additional candidates beyond the
    * contest seat limit.
    */
-  readonly bmdAllowOvervotes?: boolean;
+  bmdAllowOvervotes?: boolean;
 
   /**
    * The BMD print mode for the election.
    * See {@link BmdPrintMode}.
    */
-  readonly bmdPrintMode?: BmdPrintMode;
+  bmdPrintMode?: BmdPrintMode;
 }
 
 const PRINT_MODES = [

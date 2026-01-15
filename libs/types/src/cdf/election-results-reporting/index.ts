@@ -826,14 +826,14 @@ export const VoteVariationSchema = z.enum(VoteVariation);
  * Used as a type for character strings; it adds a 32-character annotation to a character string.
  */
 export interface AnnotatedString {
-  readonly '@type': 'ElectionResults.AnnotatedString';
+  '@type': 'ElectionResults.AnnotatedString';
 
   /**
    * An annotation of up to 32 characters associated with a character string.
    */
-  readonly Annotation?: ShortString;
+  Annotation?: ShortString;
 
-  readonly Content: string;
+  Content: string;
 }
 
 /**
@@ -849,14 +849,14 @@ export const AnnotatedStringSchema: z.ZodSchema<AnnotatedString> = z.object({
  * Used as a type for character strings that represent Uniform Resource Identifiers (URI); it adds a 32-character annotation to a character string.
  */
 export interface AnnotatedUri {
-  readonly '@type': 'ElectionResults.AnnotatedUri';
+  '@type': 'ElectionResults.AnnotatedUri';
 
   /**
    * An annotation of up to 32 characters associated with a character string.
    */
-  readonly Annotation?: ShortString;
+  Annotation?: ShortString;
 
-  readonly Content: Uri;
+  Content: Uri;
 }
 
 /**
@@ -872,52 +872,52 @@ export const AnnotatedUriSchema: z.ZodSchema<AnnotatedUri> = z.object({
  * Used for identifying various ballot counts. It inherits the attributes of Counts.
  */
 export interface BallotCounts {
-  readonly '@type': 'ElectionResults.BallotCounts';
+  '@type': 'ElectionResults.BallotCounts';
 
   /**
    * Number of ballots cast.
    */
-  readonly BallotsCast?: integer;
+  BallotsCast?: integer;
 
   /**
    * Number of ballots not yet counted.
    */
-  readonly BallotsOutstanding?: integer;
+  BallotsOutstanding?: integer;
 
   /**
    * Number of ballots rejected.
    */
-  readonly BallotsRejected?: integer;
+  BallotsRejected?: integer;
 
   /**
    * For filtering counts by device type.
    */
-  readonly DeviceClass?: DeviceClass;
+  DeviceClass?: DeviceClass;
 
   /**
    * For filtering counts by political geography or device or device type.
    */
-  readonly GpUnitId: string;
+  GpUnitId: string;
 
   /**
    * Boolean to indicate if votes are suppressed for voter privacy, e.g., true or false. Assumed to be false if not present.
    */
-  readonly IsSuppressedForPrivacy?: boolean;
+  IsSuppressedForPrivacy?: boolean;
 
   /**
    * Used when Type is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * An identification of the RCV round being reported.
    */
-  readonly Round?: integer;
+  Round?: integer;
 
   /**
    * The type of count being used as a filter on the vote counts, e.g., election day, early voting, etc.
    */
-  readonly Type: CountItemType;
+  Type: CountItemType;
 }
 
 /**
@@ -942,129 +942,129 @@ export const BallotCountsSchema: z.ZodSchema<BallotCounts> = z.object({
  * If the type of ballot measure is not listed in enumeration BallotMeasureType, use other and include the type (that is not listed in the enumeration) in OtherType.
  */
 export interface BallotMeasureContest {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.BallotMeasureContest';
+  '@type': 'ElectionResults.BallotMeasureContest';
 
   /**
    * Abbreviation for the contest.
    */
-  readonly Abbreviation?: string;
+  Abbreviation?: string;
 
   /**
    * Subtitle of the contest as it appears on the ballot.
    */
-  readonly BallotSubTitle?: InternationalizedText;
+  BallotSubTitle?: InternationalizedText;
 
   /**
    * Title of the contest as it appears on the ballot.
    */
-  readonly BallotTitle?: InternationalizedText;
+  BallotTitle?: InternationalizedText;
 
   /**
    * For a statement on the ballot associated with a “no” vote.
    */
-  readonly ConStatement?: InternationalizedText;
+  ConStatement?: InternationalizedText;
 
   /**
    * For associating a contest selection for the contest, i.e., a candidate, a ballot measure.
    */
-  readonly ContestSelection?: ReadonlyArray<PartySelection | BallotMeasureSelection | CandidateSelection>;
+  ContestSelection?: ReadonlyArray<PartySelection | BallotMeasureSelection | CandidateSelection>;
 
   /**
    * For providing various counting status associated with the contest.
    */
-  readonly CountStatus?: readonly CountStatus[];
+  CountStatus?:  CountStatus[];
 
   /**
    * For a statement on the ballot detailing the effect of abstaining from voting on the ballot measure.
    */
-  readonly EffectOfAbstain?: InternationalizedText;
+  EffectOfAbstain?: InternationalizedText;
 
   /**
    * Link to a GpUnit instance. For associating the contest with a reporting unit that represents the geographical scope of the contest, e.g., a district, etc.
    */
-  readonly ElectionDistrictId: string;
+  ElectionDistrictId: string;
 
   /**
    * For associating an ID with the contest.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * For full text on the ballot of the ballot measure.
    */
-  readonly FullText?: InternationalizedText;
+  FullText?: InternationalizedText;
 
   /**
    * Boolean to indicate whether the selections in the contest are rotated. Assumed to be “no” if not present.
    */
-  readonly HasRotation?: boolean;
+  HasRotation?: boolean;
 
   /**
    * For associating a URI with the ballot measure contest.
    */
-  readonly InfoUri?: readonly AnnotatedUri[];
+  InfoUri?:  AnnotatedUri[];
 
   /**
    * Name of the contest, not necessarily as it appears on the ballot.
    */
-  readonly Name: string;
+  Name: string;
 
   /**
    * For associating counts such as overvote and undervotes with the contest.
    */
-  readonly OtherCounts?: readonly OtherCounts[];
+  OtherCounts?:  OtherCounts[];
 
   /**
    * Used when BallotMeasureType is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * For use when VoteVariation is other.
    */
-  readonly OtherVoteVariation?: string;
+  OtherVoteVariation?: string;
 
   /**
    * For a statement on the ballot of the number or percentage of votes needed to approve or pass the ballot measure.
    */
-  readonly PassageThreshold?: InternationalizedText;
+  PassageThreshold?: InternationalizedText;
 
   /**
    * For a statement on the ballot associated with a “yes” vote.
    */
-  readonly ProStatement?: InternationalizedText;
+  ProStatement?: InternationalizedText;
 
   /**
    * Orderering for listing the contest for purposes of results display.  If not present, no order is assumed.
    */
-  readonly SequenceOrder?: integer;
+  SequenceOrder?: integer;
 
   /**
    * Number of subunits, e.g., precincts, that have completed reporting votes for this contest.
    */
-  readonly SubUnitsReported?: integer;
+  SubUnitsReported?: integer;
 
   /**
    * For a summary on the ballot of the ballot measure.
    */
-  readonly SummaryText?: InternationalizedText;
+  SummaryText?: InternationalizedText;
 
   /**
    * Total number of subunits, e.g., precincts that have this contest on the ballot.
    */
-  readonly TotalSubUnits?: integer;
+  TotalSubUnits?: integer;
 
   /**
    * For indicating the type of ballot measure.
    */
-  readonly Type?: BallotMeasureType;
+  Type?: BallotMeasureType;
 
   /**
    * Vote variation associated with the contest, e.g., n-of-m.
    */
-  readonly VoteVariation?: VoteVariation;
+  VoteVariation?: VoteVariation;
 }
 
 /**
@@ -1103,29 +1103,29 @@ export const BallotMeasureContestSchema: z.ZodSchema<BallotMeasureContest> = z.o
  * For a contest selection in a ballot measure contest. Because judicial or other retention contests are often treated like ballot measure contests, this element can be used also for retention contests. It inherits the attributes of ContestSelection.
  */
 export interface BallotMeasureSelection {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.BallotMeasureSelection';
+  '@type': 'ElectionResults.BallotMeasureSelection';
 
   /**
    * For associating an ID with the ballot measure selection.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Contains the text used to indicate a vote for or against the ballot measure, e.g., “yes”, “no”.
    */
-  readonly Selection: InternationalizedText;
+  Selection: InternationalizedText;
 
   /**
    * Order in which the candidate is listed on the ballot for purposes of results display. If not present, no order is assumed.
    */
-  readonly SequenceOrder?: integer;
+  SequenceOrder?: integer;
 
   /**
    * For associating the contest selection’s vote counts.
    */
-  readonly VoteCounts?: readonly VoteCounts[];
+  VoteCounts?:  VoteCounts[];
 }
 
 /**
@@ -1144,32 +1144,32 @@ export const BallotMeasureSelectionSchema: z.ZodSchema<BallotMeasureSelection> =
  * For defining a ballot style composed of ordered content (i.e. Headers or Contests) and their contest selections, and associating the ballot style with a political party, a reference to an image of the ballot, and a reference to a precinct or other geopolitical unit that the ballot is unique to. Election includes BallotStyle.BallotStyle references OrderedContent to include content that appears on that ballot style. To preserve any rotation associated with the ballot, it is expected that the generating application will list the occurrences of OrderedContest in the order as on the ballot for the associated geopolitical unit.BallotStyle references one or more GpUnit instances defined for the associated precincts or split precincts. If the ballot style is associated with multiple precincts (or other geographies), multiple references to the precinct GpUnit instances can be included.
  */
 export interface BallotStyle {
-  readonly '@type': 'ElectionResults.BallotStyle';
+  '@type': 'ElectionResults.BallotStyle';
 
   /**
    * For associating an ID with the ballot style.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Unique identifier for one or more GpUnit instances.  For associating specific geopolitical units with the ballot style.
    */
-  readonly GpUnitIds: readonly string[];
+  GpUnitIds: string[];
 
   /**
    * URI for a ballot image.
    */
-  readonly ImageUri?: readonly AnnotatedUri[];
+  ImageUri?:  AnnotatedUri[];
 
   /**
    * For associating a ballot style with ballot content, such as contests or headers.
    */
-  readonly OrderedContent?: ReadonlyArray<OrderedContest | OrderedHeader>;
+  OrderedContent?: ReadonlyArray<OrderedContest | OrderedHeader>;
 
   /**
    * Unique identifier for one or more Party instances.  For associating one or more parties with the ballot style.
    */
-  readonly PartyIds?: readonly string[];
+  PartyIds?:  string[];
 }
 
 /**
@@ -1192,64 +1192,64 @@ export const BallotStyleSchema: z.ZodSchema<BallotStyle> = z.object({
  * ExternalIdentifier can be used to associate an ID with the candidate. If the type is not listed in enumeration IdentifierType, use other and include the type (that is not listed in the enumeration) in OtherType.
  */
 export interface Candidate {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.Candidate';
+  '@type': 'ElectionResults.Candidate';
 
   /**
    * For the candidate’s name as listed on the ballot.
    */
-  readonly BallotName: InternationalizedText;
+  BallotName: InternationalizedText;
 
   /**
    * The slogan or motto used by the candidate in their campaign.
    */
-  readonly CampaignSlogan?: InternationalizedText;
+  CampaignSlogan?: InternationalizedText;
 
   /**
    * For associating contact information for the candidate.
    */
-  readonly ContactInformation?: ContactInformation;
+  ContactInformation?: ContactInformation;
 
   /**
    * For associating codes with the candidate.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Date when the candidate filed for the contest.
    */
-  readonly FileDate?: Date;
+  FileDate?: Date;
 
   /**
    * Boolean to indicate whether the candidate is the incumbent for the office associated with the contest. Assumed to be “no” if not present.
    */
-  readonly IsIncumbent?: boolean;
+  IsIncumbent?: boolean;
 
   /**
    * Boolean to indicate whether the candidate is the top of a ticket that includes multiple candidates. Assumed to be “no” if not present.
    */
-  readonly IsTopTicket?: boolean;
+  IsTopTicket?: boolean;
 
   /**
    * For associating a party with the candidate.
    */
-  readonly PartyId?: string;
+  PartyId?: string;
 
   /**
    * For associating more detailed information about the candidate.
    */
-  readonly PersonId?: string;
+  PersonId?: string;
 
   /**
    * Final status of the candidate, e.g., winner, withdrawn, etc.
    */
-  readonly PostElectionStatus?: CandidatePostElectionStatus;
+  PostElectionStatus?: CandidatePostElectionStatus;
 
   /**
    * Registration status of the candidate, e.g., filed, qualified, etc.
    */
-  readonly PreElectionStatus?: CandidatePreElectionStatus;
+  PreElectionStatus?: CandidatePreElectionStatus;
 }
 
 /**
@@ -1279,109 +1279,109 @@ export const CandidateSchema: z.ZodSchema<Candidate> = z.object({
  * Note that when using the CandidateSelection class to associate the candidates with a contest selection for the contest, the order of the candidates should match the order of offices. Again, using the example of the state governor ticket, if the offices are listed with Governor first and Lt. Governor second, then the order of the candidates in the ContestSelection instance should be identical, with the Governor candidate first and the Lt. Governor candidate second.
  */
 export interface CandidateContest {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.CandidateContest';
+  '@type': 'ElectionResults.CandidateContest';
 
   /**
    * Abbreviation for the contest.
    */
-  readonly Abbreviation?: string;
+  Abbreviation?: string;
 
   /**
    * Subtitle of the contest as it appears on the ballot.
    */
-  readonly BallotSubTitle?: InternationalizedText;
+  BallotSubTitle?: InternationalizedText;
 
   /**
    * Title of the contest as it appears on the ballot.
    */
-  readonly BallotTitle?: InternationalizedText;
+  BallotTitle?: InternationalizedText;
 
   /**
    * For associating a contest selection for the contest, i.e., a candidate, a ballot measure.
    */
-  readonly ContestSelection?: ReadonlyArray<PartySelection | BallotMeasureSelection | CandidateSelection>;
+  ContestSelection?: ReadonlyArray<PartySelection | BallotMeasureSelection | CandidateSelection>;
 
   /**
    * For providing various counting status associated with the contest.
    */
-  readonly CountStatus?: readonly CountStatus[];
+  CountStatus?:  CountStatus[];
 
   /**
    * Link to a GpUnit instance. For associating the contest with a reporting unit that represents the geographical scope of the contest, e.g., a district, etc.
    */
-  readonly ElectionDistrictId: string;
+  ElectionDistrictId: string;
 
   /**
    * For associating an ID with the contest.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Boolean to indicate whether the selections in the contest are rotated. Assumed to be “no” if not present.
    */
-  readonly HasRotation?: boolean;
+  HasRotation?: boolean;
 
   /**
    * Name of the contest, not necessarily as it appears on the ballot.
    */
-  readonly Name: string;
+  Name: string;
 
   /**
    * Number of candidates that are elected in the contest (“n” of n-of-m).
    */
-  readonly NumberElected?: integer;
+  NumberElected?: integer;
 
   /**
    * The number of candidates in a runoff contest.
    */
-  readonly NumberRunoff?: integer;
+  NumberRunoff?: integer;
 
   /**
    * For associating office descriptions.
    */
-  readonly OfficeIds?: readonly string[];
+  OfficeIds?:  string[];
 
   /**
    * For associating counts such as overvote and undervotes with the contest.
    */
-  readonly OtherCounts?: readonly OtherCounts[];
+  OtherCounts?:  OtherCounts[];
 
   /**
    * For use when VoteVariation is other.
    */
-  readonly OtherVoteVariation?: string;
+  OtherVoteVariation?: string;
 
   /**
    * For associating parties with the contest.
    */
-  readonly PrimaryPartyIds?: readonly string[];
+  PrimaryPartyIds?:  string[];
 
   /**
    * Orderering for listing the contest for purposes of results display.  If not present, no order is assumed.
    */
-  readonly SequenceOrder?: integer;
+  SequenceOrder?: integer;
 
   /**
    * Number of subunits, e.g., precincts, that have completed reporting votes for this contest.
    */
-  readonly SubUnitsReported?: integer;
+  SubUnitsReported?: integer;
 
   /**
    * Total number of subunits, e.g., precincts that have this contest on the ballot.
    */
-  readonly TotalSubUnits?: integer;
+  TotalSubUnits?: integer;
 
   /**
    * Vote variation associated with the contest, e.g., n-of-m.
    */
-  readonly VoteVariation?: VoteVariation;
+  VoteVariation?: VoteVariation;
 
   /**
    * Maximum number of votes per voter in this contest.
    */
-  readonly VotesAllowed: integer;
+  VotesAllowed: integer;
 }
 
 /**
@@ -1420,34 +1420,34 @@ export const CandidateContestSchema: z.ZodSchema<CandidateContest> = z.object({
  * When multiple candidates are referenced for a ticket and the ordering of the candidates is important to preserve, it is expected that the generating application will list the references to Candidate instances according to the ordering scheme in place. For example, if the contest is for a ticket in which each candidate is associated with a different office, then the order of the candidates should match the same ordering of the &lt;Office&gt; element references within &lt;OfficeIds&gt; in the &lt;Contest xsi:type=&quot;CandidateContest&quot; ... /&gt; element.
  */
 export interface CandidateSelection {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.CandidateSelection';
+  '@type': 'ElectionResults.CandidateSelection';
 
   /**
    * For associating a candidate with the candidate selection on the ballot and for cases where the contest selection is for multiple candidates, e.g., a ticket.
    */
-  readonly CandidateIds?: readonly string[];
+  CandidateIds?:  string[];
 
   /**
    * For associating one or more endorsing parties with the candidate selection.
    */
-  readonly EndorsementPartyIds?: readonly string[];
+  EndorsementPartyIds?:  string[];
 
   /**
    * Indicates whether the candidate is a write-in, e.g., true or false.  Assumed to be false if not present.
    */
-  readonly IsWriteIn?: boolean;
+  IsWriteIn?: boolean;
 
   /**
    * Order in which the candidate is listed on the ballot for purposes of results display. If not present, no order is assumed.
    */
-  readonly SequenceOrder?: integer;
+  SequenceOrder?: integer;
 
   /**
    * For associating the contest selection’s vote counts.
    */
-  readonly VoteCounts?: readonly VoteCounts[];
+  VoteCounts?:  VoteCounts[];
 }
 
 /**
@@ -1471,69 +1471,69 @@ export const CandidateSelectionSchema: z.ZodSchema<CandidateSelection> = z.objec
  * If there are no associated Contests, a general default is that the coalition endorses the associated parties.
  */
 export interface Coalition {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.Coalition';
+  '@type': 'ElectionResults.Coalition';
 
   /**
    * Short name for the party, e.g., “DEM”.
    */
-  readonly Abbreviation?: InternationalizedText;
+  Abbreviation?: InternationalizedText;
 
   /**
    * For associating an HTML RGB color coding with the party.
    */
-  readonly Color?: HtmlColorString;
+  Color?: HtmlColorString;
 
   /**
    * For associating contact information regarding the party, e.g., party offices.
    */
-  readonly ContactInformation?: ContactInformation;
+  ContactInformation?: ContactInformation;
 
   /**
    * For associating contests with the coalition.
    */
-  readonly ContestIds?: readonly string[];
+  ContestIds?:  string[];
 
   /**
    * For associating an ID with the party.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * For indicating whether the party is recognized by the election authority; “false” is assumed if not present.
    */
-  readonly IsRecognizedParty?: boolean;
+  IsRecognizedParty?: boolean;
 
   /**
    * Identification of a Party's leader.
    */
-  readonly LeaderPersonIds?: readonly string[];
+  LeaderPersonIds?:  string[];
 
   /**
    * A URI to the party’s graphical logo.
    */
-  readonly LogoUri?: readonly AnnotatedUri[];
+  LogoUri?:  AnnotatedUri[];
 
   /**
    * Official full name of the party, e.g., “Republican”; can appear on the ballot.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 
   /**
    * For associating parties with the coalition.
    */
-  readonly PartyIds?: readonly string[];
+  PartyIds?:  string[];
 
   /**
    * The GpUnit(s) the party operates in or the top-most GpUnit.
    */
-  readonly PartyScopeGpUnitIds?: readonly string[];
+  PartyScopeGpUnitIds?:  string[];
 
   /**
    * The slogan or motto used by a political party.
    */
-  readonly Slogan?: InternationalizedText;
+  Slogan?: InternationalizedText;
 }
 
 /**
@@ -1566,57 +1566,57 @@ export const CoalitionSchema: z.ZodSchema<Coalition> = z.object({
  * Email, Fax, and Phone are of type AnnotatedString, which permits up to a 32-character annotation to be associated with the data.
  */
 export interface ContactInformation {
-  readonly '@type': 'ElectionResults.ContactInformation';
+  '@type': 'ElectionResults.ContactInformation';
 
   /**
    * For associating an address with the contact.
    */
-  readonly AddressLine?: readonly string[];
+  AddressLine?:  string[];
 
   /**
    * Directional information in addition to address information.
    */
-  readonly Directions?: InternationalizedText;
+  Directions?: InternationalizedText;
 
   /**
    * Email address associated with the contact.
    */
-  readonly Email?: readonly AnnotatedString[];
+  Email?:  AnnotatedString[];
 
   /**
    * Fax number associated with the contact.
    */
-  readonly Fax?: readonly AnnotatedString[];
+  Fax?:  AnnotatedString[];
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * For latitude and longitude information associated with the contact.
    */
-  readonly LatLng?: LatLng;
+  LatLng?: LatLng;
 
   /**
    * Name associated with the contact.
    */
-  readonly Name?: string;
+  Name?: string;
 
   /**
    * Phone number associated with the contact.
    */
-  readonly Phone?: readonly AnnotatedString[];
+  Phone?:  AnnotatedString[];
 
   /**
    * For associating a schedule with the contact.
    */
-  readonly Schedule?: readonly Schedule[];
+  Schedule?:  Schedule[];
 
   /**
    * URI associated with the contact.
    */
-  readonly Uri?: readonly AnnotatedUri[];
+  Uri?:  AnnotatedUri[];
 }
 
 /**
@@ -1642,22 +1642,22 @@ export const ContactInformationSchema: z.ZodSchema<ContactInformation> = z.objec
  * If the type of count item is not listed in enumeration CountItemType, use other and include the type (that is not listed in the enumeration) in OtherType.
  */
 export interface CountStatus {
-  readonly '@type': 'ElectionResults.CountStatus';
+  '@type': 'ElectionResults.CountStatus';
 
   /**
    * Used when Type is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * The status of the count, from the CountItemStatus enumeration.
    */
-  readonly Status: CountItemStatus;
+  Status: CountItemStatus;
 
   /**
    * The type of item, from the CountItemType enumeration.
    */
-  readonly Type: CountItemType;
+  Type: CountItemType;
 }
 
 /**
@@ -1674,27 +1674,27 @@ export const CountStatusSchema: z.ZodSchema<CountStatus> = z.object({
  * For filtering vote counts by device-related information. GpUnit, Counts, and OtherCounts include DeviceClass.
  */
 export interface DeviceClass {
-  readonly '@type': 'ElectionResults.DeviceClass';
+  '@type': 'ElectionResults.DeviceClass';
 
   /**
    * Manufacturer of the device.
    */
-  readonly Manufacturer?: string;
+  Manufacturer?: string;
 
   /**
    * Manufacturer’s device model, used to filter on, e.g., a specific model of DRE or other device type.
    */
-  readonly Model?: string;
+  Model?: string;
 
   /**
    * Used when Type is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * Enumerated type of device, e.g., "dre", "opscan-precinct", etc.
    */
-  readonly Type?: DeviceType;
+  Type?: DeviceType;
 }
 
 /**
@@ -1716,72 +1716,72 @@ export const DeviceClassSchema: z.ZodSchema<DeviceClass> = z.object({
  * Election includes a required association end ElectionScope, which links to a GpUnit instance for the purpose of identifying the geographical scope of the election. For example, for an election within a county, ElectionScope would reference a GpUnit defined for the county. If it is desired to include election authority information, the GpUnit can include ElectionAdministration.
  */
 export interface Election {
-  readonly '@type': 'ElectionResults.Election';
+  '@type': 'ElectionResults.Election';
 
   /**
    * Used for identifying various ballot counts.
    */
-  readonly BallotCounts?: readonly BallotCounts[];
+  BallotCounts?:  BallotCounts[];
 
   /**
    * For defining ballot styles associated with the election.
    */
-  readonly BallotStyle?: readonly BallotStyle[];
+  BallotStyle?:  BallotStyle[];
 
   /**
    * For defining candidates associated with the election.
    */
-  readonly Candidate?: readonly Candidate[];
+  Candidate?:  Candidate[];
 
   /**
    * For associating various contact information with the election.
    */
-  readonly ContactInformation?: ContactInformation;
+  ContactInformation?: ContactInformation;
 
   /**
    * For defining contests associated with the election.
    */
-  readonly Contest?: ReadonlyArray<PartyContest | BallotMeasureContest | CandidateContest | RetentionContest>;
+  Contest?: ReadonlyArray<PartyContest | BallotMeasureContest | CandidateContest | RetentionContest>;
 
   /**
    * For providing various counting status on types of ballots or other items.
    */
-  readonly CountStatus?: readonly CountStatus[];
+  CountStatus?:  CountStatus[];
 
   /**
    * Unique identifier for a GpUnit element. For associating the election with a reporting unit that represents the geographical scope of the election, e.g., a state, a county, etc.
    */
-  readonly ElectionScopeId: string;
+  ElectionScopeId: string;
 
   /**
    * Calendar end date of the election; for a typical one-day election, the end date is the same as the start date.
    */
-  readonly EndDate: Date;
+  EndDate: Date;
 
   /**
    * For associating an ID with the election.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * For including a name for the election; the name could be the same name as appears on the ballot.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 
   /**
    * Used when Type is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * Calendar start date of the election, e.g., “2018-11-04”.
    */
-  readonly StartDate: Date;
+  StartDate: Date;
 
   /**
    * Enumerated type of election, e.g., partisan-primary, open-primary, etc.
    */
-  readonly Type: ElectionType;
+  Type: ElectionType;
 }
 
 /**
@@ -1810,22 +1810,22 @@ export const ElectionSchema: z.ZodSchema<Election> = z.object({
  * ElectionAdministration includes ContactInformation for the election authority and, using ElectionOfficialPerson references one or more Person instances defined for individuals/organizations associated with the election authority.
  */
 export interface ElectionAdministration {
-  readonly '@type': 'ElectionResults.ElectionAdministration';
+  '@type': 'ElectionResults.ElectionAdministration';
 
   /**
    * For including various contact information.
    */
-  readonly ContactInformation?: ContactInformation;
+  ContactInformation?: ContactInformation;
 
   /**
    * Unique identifier for one or more Person elements defined for the election authority.
    */
-  readonly ElectionOfficialPersonIds?: readonly string[];
+  ElectionOfficialPersonIds?:  string[];
 
   /**
    * Name of the election authority.
    */
-  readonly Name?: string;
+  Name?: string;
 }
 
 /**
@@ -1844,102 +1844,102 @@ export const ElectionAdministrationSchema: z.ZodSchema<ElectionAdministration> =
  * ElectionReport references the major elements that are not necessarily specific to an election and that therefore can exist in a pre-election report: GpUnit, Office and OfficeGroup, Party, Person, and Election.
  */
 export interface ElectionReport {
-  readonly '@type': 'ElectionResults.ElectionReport';
+  '@type': 'ElectionResults.ElectionReport';
 
   /**
    * For associating elections with the report.
    */
-  readonly Election?: readonly Election[];
+  Election?:  Election[];
 
   /**
    * For associating an ID with the report.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Detail level of the report, e.g., contest summary, precinct level results, etc.
    */
-  readonly Format: ReportDetailLevel;
+  Format: ReportDetailLevel;
 
   /**
    * Identifies the date and time that the election report was generated.
    */
-  readonly GeneratedDate: DateTimeWithZone;
+  GeneratedDate: DateTimeWithZone;
 
   /**
    * For associating geopolitical units with the report.
    */
-  readonly GpUnit?: ReadonlyArray<ReportingDevice | ReportingUnit>;
+  GpUnit?: ReadonlyArray<ReportingDevice | ReportingUnit>;
 
   /**
    * For associating headers with parts of a ballot style.
    */
-  readonly Header?: readonly Header[];
+  Header?:  Header[];
 
   /**
    * Used to indicate whether the report is a test report. Assumed to be “false” if not present.
    */
-  readonly IsTest?: boolean;
+  IsTest?: boolean;
 
   /**
    * Identification of the report issuer.
    */
-  readonly Issuer: string;
+  Issuer: string;
 
   /**
    * An abbreviation of the report issuer such as the 2-character U.S. Census Bureau abbreviation of the state whose results are being reported, e.g., AL, TX, MN, etc.
    */
-  readonly IssuerAbbreviation: string;
+  IssuerAbbreviation: string;
 
   /**
    * For including an arbitrary message with the report.
    */
-  readonly Notes?: string;
+  Notes?: string;
 
   /**
    * For associating offices with the report.
    */
-  readonly Office?: readonly Office[];
+  Office?:  Office[];
 
   /**
    * For associating a name for a grouping of offices with the report.
    */
-  readonly OfficeGroup?: readonly OfficeGroup[];
+  OfficeGroup?:  OfficeGroup[];
 
   /**
    * For associating parties with the report.
    */
-  readonly Party?: ReadonlyArray<Party | Coalition>;
+  Party?: ReadonlyArray<Party | Coalition>;
 
   /**
    * For associating persons with the report.
    */
-  readonly Person?: readonly Person[];
+  Person?:  Person[];
 
   /**
    * The upper bound of the sequence; e.g., “1” if there is only 1 report, “2” if there are two reports in the sequence, etc.
    */
-  readonly SequenceEnd: integer;
+  SequenceEnd: integer;
 
   /**
    * The report’s number as part of a sequence of reports, used with  so as to be read as, e.g., 1 of 1, 1 of 2, 2 of 2, etc.  Starts with “1”.
    */
-  readonly SequenceStart: integer;
+  SequenceStart: integer;
 
   /**
    * Status of the election report, e.g., test mode, unofficial, etc.
    */
-  readonly Status: ResultsStatus;
+  Status: ResultsStatus;
 
   /**
    * A description of the type of test, e.g., pre-election, logic and accuracy, etc.
    */
-  readonly TestType?: string;
+  TestType?: string;
 
   /**
    * An identifier of the vendor application generating the election report, e.g., X-EMS version 3.1.a.
    */
-  readonly VendorApplicationId: string;
+  VendorApplicationId: string;
 }
 
 /**
@@ -1974,27 +1974,27 @@ export const ElectionReportSchema: z.ZodSchema<ElectionReport> = z.object({
  * For elements that link to ExternalIdentifier instances, if the type is not listed in enumeration IdentifierType, use other and include the type (that is not listed in the enumeration) in OtherType.
  */
 export interface ExternalIdentifier {
-  readonly '@type': 'ElectionResults.ExternalIdentifier';
+  '@type': 'ElectionResults.ExternalIdentifier';
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * Used when IdentifierType value is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * An identifier type, e.g., FIPS.
    */
-  readonly Type: IdentifierType;
+  Type: IdentifierType;
 
   /**
    * The identifier used by the jurisdiction.
    */
-  readonly Value: string;
+  Value: string;
 }
 
 /**
@@ -2012,19 +2012,19 @@ export const ExternalIdentifierSchema: z.ZodSchema<ExternalIdentifier> = z.objec
  * For defining a reusable set of headers.
  */
 export interface Header {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.Header';
+  '@type': 'ElectionResults.Header';
 
   /**
    * For associating an ID with the header.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Name of the header, as it is to appear on a ballot style.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 }
 
 /**
@@ -2041,27 +2041,27 @@ export const HeaderSchema: z.ZodSchema<Header> = z.object({
  * Hours is used to specify a specific day and hours on that day, including the time zone.  Multiple occurrences of Hours can be used if the schedule includes a range of days and hours.
  */
 export interface Hours {
-  readonly '@type': 'ElectionResults.Hours';
+  '@type': 'ElectionResults.Hours';
 
   /**
    * Day of the week.
    */
-  readonly Day?: DayType;
+  Day?: DayType;
 
   /**
    * End time of the schedule.
    */
-  readonly EndTime: TimeWithZone;
+  EndTime: TimeWithZone;
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * Start time of the schedule.
    */
-  readonly StartTime: TimeWithZone;
+  StartTime: TimeWithZone;
 }
 
 /**
@@ -2099,17 +2099,17 @@ export const HoursSchema: z.ZodSchema<Hours> = z.object({
  * ko – Korean
  */
 export interface InternationalizedText {
-  readonly '@type': 'ElectionResults.InternationalizedText';
+  '@type': 'ElectionResults.InternationalizedText';
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * Used to hold a string of text with an associated table indicating the language used.
    */
-  readonly Text: readonly LanguageString[];
+  Text: LanguageString[];
 }
 
 /**
@@ -2125,14 +2125,14 @@ export const InternationalizedTextSchema: z.ZodSchema<InternationalizedText> = z
  * Used to hold a string of text with an associated table indicating the language used.
  */
 export interface LanguageString {
-  readonly '@type': 'ElectionResults.LanguageString';
+  '@type': 'ElectionResults.LanguageString';
 
-  readonly Content: string;
+  Content: string;
 
   /**
    * Identification of the language, such as 'es'.
    */
-  readonly Language: string;
+  Language: string;
 }
 
 /**
@@ -2148,27 +2148,27 @@ export const LanguageStringSchema: z.ZodSchema<LanguageString> = z.object({
  * Associates latitude/longitude with a contact address.
  */
 export interface LatLng {
-  readonly '@type': 'ElectionResults.LatLng';
+  '@type': 'ElectionResults.LatLng';
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * Latitude of the contact location.
    */
-  readonly Latitude: number;
+  Latitude: number;
 
   /**
    * Longitude of the contact location.
    */
-  readonly Longitude: number;
+  Longitude: number;
 
   /**
    * System used to perform the lookup from location name to lat/lng, e.g., the name of a geocoding service.
    */
-  readonly Source?: string;
+  Source?: string;
 }
 
 /**
@@ -2190,54 +2190,54 @@ export const LatLngSchema: z.ZodSchema<LatLng> = z.object({
  * Office includes an optional ElectionDistrict reference to a GpUnit for the purpose of identifying the geographical scope of the office. For example, for an office for a state senate seat, ElectionDistrict would include a reference to the GpUnit defined for the district associated with that office.
  */
 export interface Office {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.Office';
+  '@type': 'ElectionResults.Office';
 
   /**
    * For associating various contact information with the office.
    */
-  readonly ContactInformation?: ContactInformation;
+  ContactInformation?: ContactInformation;
 
   /**
    * A description of the office, possibly as shown on the ballot to the voter.
    */
-  readonly Description?: InternationalizedText;
+  Description?: InternationalizedText;
 
   /**
    * Link to a GpUnit instance. For associating the office with a reporting unit that represents the geographical scope of the contest, e.g., a district, etc.
    */
-  readonly ElectionDistrictId?: string;
+  ElectionDistrictId?: string;
 
   /**
    * For associating an ID with the office.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Date and time when a candidate must have filed for the contest for the office.
    */
-  readonly FilingDeadline?: Date;
+  FilingDeadline?: Date;
 
   /**
    * Boolean to indicate whether the office is partisan, e.g., true or false.  If not present, assumption is true.
    */
-  readonly IsPartisan?: boolean;
+  IsPartisan?: boolean;
 
   /**
    * Name of the office; can appear on the ballot.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 
   /**
    * Links to one or more Person instances defined for the office holder.
    */
-  readonly OfficeHolderPersonIds?: readonly string[];
+  OfficeHolderPersonIds?:  string[];
 
   /**
    * For including office term-related information.
    */
-  readonly Term?: Term;
+  Term?: Term;
 }
 
 /**
@@ -2261,27 +2261,27 @@ export const OfficeSchema: z.ZodSchema<Office> = z.object({
  * Used to assign a name to a grouping of office definitions. It includes references to Office instances and a name to identify the grouping of references, e.g., "Judicial" or "Statewide", etc. SubOfficeGroup can be used to create a nested hierarchy of groupings. ElectionReport includes OfficeGroup.
  */
 export interface OfficeGroup {
-  readonly '@type': 'ElectionResults.OfficeGroup';
+  '@type': 'ElectionResults.OfficeGroup';
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * Name of the office grouping.
    */
-  readonly Name: string;
+  Name: string;
 
   /**
    * Link to one or more Office instances.
    */
-  readonly OfficeIds?: readonly string[];
+  OfficeIds?:  string[];
 
   /**
    * For defining a nested hierarchy of Office instance groupings.
    */
-  readonly SubOfficeGroup?: readonly OfficeGroup[];
+  SubOfficeGroup?:  OfficeGroup[];
 }
 
 /**
@@ -2299,17 +2299,17 @@ export const OfficeGroupSchema: z.ZodSchema<OfficeGroup> = z.object({
  * For the appearance of a contest on a particular ballot style.
  */
 export interface OrderedContest {
-  readonly '@type': 'ElectionResults.OrderedContest';
+  '@type': 'ElectionResults.OrderedContest';
 
   /**
    * The contest associated represented by OrderedContest.
    */
-  readonly ContestId: string;
+  ContestId: string;
 
   /**
    * The contest selections for the ballot.
    */
-  readonly OrderedContestSelectionIds?: readonly string[];
+  OrderedContestSelectionIds?:  string[];
 }
 
 /**
@@ -2325,17 +2325,17 @@ export const OrderedContestSchema: z.ZodSchema<OrderedContest> = z.object({
  * For the appearance of a header on a particular ballot style.
  */
 export interface OrderedHeader {
-  readonly '@type': 'ElectionResults.OrderedHeader';
+  '@type': 'ElectionResults.OrderedHeader';
 
   /**
    * Association to the header to be used.
    */
-  readonly HeaderId: string;
+  HeaderId: string;
 
   /**
    * For associating a header with ballot content, such as contests or nested headers.
    */
-  readonly OrderedContent?: ReadonlyArray<OrderedContest | OrderedHeader>;
+  OrderedContent?: ReadonlyArray<OrderedContest | OrderedHeader>;
 }
 
 /**
@@ -2351,32 +2351,32 @@ export const OrderedHeaderSchema: z.ZodSchema<OrderedHeader> = z.object({
  * Identifies other counts associated with a contest.
  */
 export interface OtherCounts {
-  readonly '@type': 'ElectionResults.OtherCounts';
+  '@type': 'ElectionResults.OtherCounts';
 
   /**
    * For filtering counts by device type.
    */
-  readonly DeviceClass?: DeviceClass;
+  DeviceClass?: DeviceClass;
 
   /**
    * For filter counts by political geography or device or device type.
    */
-  readonly GpUnitId: string;
+  GpUnitId: string;
 
   /**
    * Number of overvotes.
    */
-  readonly Overvotes?: number;
+  Overvotes?: number;
 
   /**
    * Number of undervotes.
    */
-  readonly Undervotes?: number;
+  Undervotes?: number;
 
   /**
    * Number of write-ins.
    */
-  readonly WriteIns?: integer;
+  WriteIns?: integer;
 }
 
 /**
@@ -2399,59 +2399,59 @@ export const OtherCountsSchema: z.ZodSchema<OtherCounts> = z.object({
  * The Color attribute specifies a 6-digit RGB code displayable using HTML.
  */
 export interface Party {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.Party';
+  '@type': 'ElectionResults.Party';
 
   /**
    * Short name for the party, e.g., “DEM”.
    */
-  readonly Abbreviation?: InternationalizedText;
+  Abbreviation?: InternationalizedText;
 
   /**
    * For associating an HTML RGB color coding with the party.
    */
-  readonly Color?: HtmlColorString;
+  Color?: HtmlColorString;
 
   /**
    * For associating contact information regarding the party, e.g., party offices.
    */
-  readonly ContactInformation?: ContactInformation;
+  ContactInformation?: ContactInformation;
 
   /**
    * For associating an ID with the party.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * For indicating whether the party is recognized by the election authority; “false” is assumed if not present.
    */
-  readonly IsRecognizedParty?: boolean;
+  IsRecognizedParty?: boolean;
 
   /**
    * Identification of a Party's leader.
    */
-  readonly LeaderPersonIds?: readonly string[];
+  LeaderPersonIds?:  string[];
 
   /**
    * A URI to the party’s graphical logo.
    */
-  readonly LogoUri?: readonly AnnotatedUri[];
+  LogoUri?:  AnnotatedUri[];
 
   /**
    * Official full name of the party, e.g., “Republican”; can appear on the ballot.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 
   /**
    * The GpUnit(s) the party operates in or the top-most GpUnit.
    */
-  readonly PartyScopeGpUnitIds?: readonly string[];
+  PartyScopeGpUnitIds?:  string[];
 
   /**
    * The slogan or motto used by a political party.
    */
-  readonly Slogan?: InternationalizedText;
+  Slogan?: InternationalizedText;
 }
 
 /**
@@ -2476,84 +2476,84 @@ export const PartySchema: z.ZodSchema<Party> = z.object({
  * For a contest that involves choosing a party, typically for a straight party selection on the ballot.
  */
 export interface PartyContest {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.PartyContest';
+  '@type': 'ElectionResults.PartyContest';
 
   /**
    * Abbreviation for the contest.
    */
-  readonly Abbreviation?: string;
+  Abbreviation?: string;
 
   /**
    * Subtitle of the contest as it appears on the ballot.
    */
-  readonly BallotSubTitle?: InternationalizedText;
+  BallotSubTitle?: InternationalizedText;
 
   /**
    * Title of the contest as it appears on the ballot.
    */
-  readonly BallotTitle?: InternationalizedText;
+  BallotTitle?: InternationalizedText;
 
   /**
    * For associating a contest selection for the contest, i.e., a candidate, a ballot measure.
    */
-  readonly ContestSelection?: ReadonlyArray<PartySelection | BallotMeasureSelection | CandidateSelection>;
+  ContestSelection?: ReadonlyArray<PartySelection | BallotMeasureSelection | CandidateSelection>;
 
   /**
    * For providing various counting status associated with the contest.
    */
-  readonly CountStatus?: readonly CountStatus[];
+  CountStatus?:  CountStatus[];
 
   /**
    * Link to a GpUnit instance. For associating the contest with a reporting unit that represents the geographical scope of the contest, e.g., a district, etc.
    */
-  readonly ElectionDistrictId: string;
+  ElectionDistrictId: string;
 
   /**
    * For associating an ID with the contest.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Boolean to indicate whether the selections in the contest are rotated. Assumed to be “no” if not present.
    */
-  readonly HasRotation?: boolean;
+  HasRotation?: boolean;
 
   /**
    * Name of the contest, not necessarily as it appears on the ballot.
    */
-  readonly Name: string;
+  Name: string;
 
   /**
    * For associating counts such as overvote and undervotes with the contest.
    */
-  readonly OtherCounts?: readonly OtherCounts[];
+  OtherCounts?:  OtherCounts[];
 
   /**
    * For use when VoteVariation is other.
    */
-  readonly OtherVoteVariation?: string;
+  OtherVoteVariation?: string;
 
   /**
    * Orderering for listing the contest for purposes of results display.  If not present, no order is assumed.
    */
-  readonly SequenceOrder?: integer;
+  SequenceOrder?: integer;
 
   /**
    * Number of subunits, e.g., precincts, that have completed reporting votes for this contest.
    */
-  readonly SubUnitsReported?: integer;
+  SubUnitsReported?: integer;
 
   /**
    * Total number of subunits, e.g., precincts that have this contest on the ballot.
    */
-  readonly TotalSubUnits?: integer;
+  TotalSubUnits?: integer;
 
   /**
    * Vote variation associated with the contest, e.g., n-of-m.
    */
-  readonly VoteVariation?: VoteVariation;
+  VoteVariation?: VoteVariation;
 }
 
 /**
@@ -2583,17 +2583,17 @@ export const PartyContestSchema: z.ZodSchema<PartyContest> = z.object({
  * For tracking the number of registered voters per party per geopolitical unit, i.e., for reporting on the number of registered voters of a particular party in a district or other type of reporting unit. Referenced by GpUnit.
  */
 export interface PartyRegistration {
-  readonly '@type': 'ElectionResults.PartyRegistration';
+  '@type': 'ElectionResults.PartyRegistration';
 
   /**
    * A count for tracking the number of registered voters.
    */
-  readonly Count: integer;
+  Count: integer;
 
   /**
    * Link to a Party instance. For associating a political party.
    */
-  readonly PartyId: string;
+  PartyId: string;
 }
 
 /**
@@ -2609,24 +2609,24 @@ export const PartyRegistrationSchema: z.ZodSchema<PartyRegistration> = z.object(
  * For a contest selection involving a party such as for a straight party selection on the ballot. It inherits the attributes of ContestSelection.
  */
 export interface PartySelection {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.PartySelection';
+  '@type': 'ElectionResults.PartySelection';
 
   /**
    * Link to one or more Party instances. For associating one or more parties with the party selection.
    */
-  readonly PartyIds: readonly string[];
+  PartyIds: string[];
 
   /**
    * Order in which the candidate is listed on the ballot for purposes of results display. If not present, no order is assumed.
    */
-  readonly SequenceOrder?: integer;
+  SequenceOrder?: integer;
 
   /**
    * For associating the contest selection’s vote counts.
    */
-  readonly VoteCounts?: readonly VoteCounts[];
+  VoteCounts?:  VoteCounts[];
 }
 
 /**
@@ -2647,79 +2647,79 @@ export const PartySelectionSchema: z.ZodSchema<PartySelection> = z.object({
  * Multiple occurrences of the MiddleName attribute can be used as needed, e.g., for names such as "John Andrew Winston Smith".
  */
 export interface Person {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.Person';
+  '@type': 'ElectionResults.Person';
 
   /**
    * For associating contact information with the person.
    */
-  readonly ContactInformation?: readonly ContactInformation[];
+  ContactInformation?:  ContactInformation[];
 
   /**
    * Person’s date of birth.
    */
-  readonly DateOfBirth?: Date;
+  DateOfBirth?: Date;
 
   /**
    * For associating codes with the person.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Person’s first (given) name.
    */
-  readonly FirstName?: string;
+  FirstName?: string;
 
   /**
    * Person’s full name.
    */
-  readonly FullName?: InternationalizedText;
+  FullName?: InternationalizedText;
 
   /**
    * Person’s gender.
    */
-  readonly Gender?: string;
+  Gender?: string;
 
   /**
    * Person’s last (family) name.
    */
-  readonly LastName?: string;
+  LastName?: string;
 
   /**
    * Person’s middle name.
    */
-  readonly MiddleName?: readonly string[];
+  MiddleName?:  string[];
 
   /**
    * Nickname associated with the person.
    */
-  readonly Nickname?: string;
+  Nickname?: string;
 
   /**
    * Links to a Party instance. For associating a political party with the person.
    */
-  readonly PartyId?: string;
+  PartyId?: string;
 
   /**
    * A prefix associated with the person, e.g., Mr.
    */
-  readonly Prefix?: string;
+  Prefix?: string;
 
   /**
    * Person’s profession.
    */
-  readonly Profession?: InternationalizedText;
+  Profession?: InternationalizedText;
 
   /**
    * A suffix associated with the person, e.g., Jr.
    */
-  readonly Suffix?: string;
+  Suffix?: string;
 
   /**
    * A title associated with the person.
    */
-  readonly Title?: InternationalizedText;
+  Title?: InternationalizedText;
 }
 
 /**
@@ -2748,34 +2748,34 @@ export const PersonSchema: z.ZodSchema<Person> = z.object({
  * Class/element describing a specific vote-capture device.
  */
 export interface ReportingDevice {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.ReportingDevice';
+  '@type': 'ElectionResults.ReportingDevice';
 
   /**
    * Unique identifier for one or more GpUnit instances.  For creating a reference to another GpUnit that is contained with the parent GpUnit.
    */
-  readonly ComposingGpUnitIds?: readonly string[];
+  ComposingGpUnitIds?:  string[];
 
   /**
    * Used for reporting on details about the type of voting device used for the results in question.
    */
-  readonly DeviceClass?: DeviceClass;
+  DeviceClass?: DeviceClass;
 
   /**
    * For associating an ID with the GpUnit, e.g., a district’s or county’s code.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Name of the geopolitical unit.
    */
-  readonly Name?: InternationalizedText;
+  Name?: InternationalizedText;
 
   /**
    * Device's serial number or other unique identifier.
    */
-  readonly SerialNumber?: string;
+  SerialNumber?: string;
 }
 
 /**
@@ -2803,99 +2803,99 @@ export const ReportingDeviceSchema: z.ZodSchema<ReportingDevice> = z.object({
  * The IsDistricted boolean can be used in a number of ways. It is not strictly necessary, as it is possible to identify districts by their Type attribute or by examining the Contest instance's ElectionDistrict reference, which links to the election district associated with the contest. However, if a district is defined but is not linked from a contest, or if the type of district is not listed in the ReportingUnitType enumeration and therefore OtherType is used, then IsDistricted is necessary to identify the GpUnit as a district. The IsDistricted boolean can also be used to signify that a GpUnit defined as a jurisdiction, e.g., a county, is also used as a district for, e.g., county-wide contests.
  */
 export interface ReportingUnit {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.ReportingUnit';
+  '@type': 'ElectionResults.ReportingUnit';
 
   /**
    * A link to one or more Person instances describing an authority responsible for the reporting unit.
    */
-  readonly AuthorityIds?: readonly string[];
+  AuthorityIds?:  string[];
 
   /**
    * Unique identifier for one or more GpUnit instances.  For creating a reference to another GpUnit that is contained with the parent GpUnit.
    */
-  readonly ComposingGpUnitIds?: readonly string[];
+  ComposingGpUnitIds?:  string[];
 
   /**
    * For associating contact information with the reporting unit.
    */
-  readonly ContactInformation?: ContactInformation;
+  ContactInformation?: ContactInformation;
 
   /**
    * For providing various counting status on types of ballots or other items.
    */
-  readonly CountStatus?: readonly CountStatus[];
+  CountStatus?:  CountStatus[];
 
   /**
    * For use when the reporting unit serves as the authority in the election.
    */
-  readonly ElectionAdministration?: ElectionAdministration;
+  ElectionAdministration?: ElectionAdministration;
 
   /**
    * For associating an ID with the GpUnit, e.g., a district’s or county’s code.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * Boolean to indicate whether the reporting unit is a district; assumed to be “false” if not present.
    */
-  readonly IsDistricted?: boolean;
+  IsDistricted?: boolean;
 
   /**
    * Boolean to indicate whether the reporting unit handles only mail-in or absentee ballot elections, assumed to be “false” if not present.
    */
-  readonly IsMailOnly?: boolean;
+  IsMailOnly?: boolean;
 
   /**
    * Name of the geopolitical unit.
    */
-  readonly Name?: InternationalizedText;
+  Name?: InternationalizedText;
 
   /**
    * A number associated with the reporting unit; for compatibility with VIP.
    */
-  readonly Number?: string;
+  Number?: string;
 
   /**
    * For use when ReportingUnitType value is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * For associating a count of registered voters per party with the geopolitical unit.
    */
-  readonly PartyRegistration?: readonly PartyRegistration[];
+  PartyRegistration?:  PartyRegistration[];
 
   /**
    * For describing the reporting unit’s spatial extent (a polygon that shows the related area).
    */
-  readonly SpatialDimension?: SpatialDimension;
+  SpatialDimension?: SpatialDimension;
 
   /**
    * Number of associated subunits such as precincts that have completed reporting.
    */
-  readonly SubUnitsReported?: integer;
+  SubUnitsReported?: integer;
 
   /**
    * Total number of associated subunits such as precincts.
    */
-  readonly TotalSubUnits?: integer;
+  TotalSubUnits?: integer;
 
   /**
    * Enumerated type of reporting unit, e.g., state, county, district, precinct, etc.
    */
-  readonly Type: ReportingUnitType;
+  Type: ReportingUnitType;
 
   /**
    * Number of voters who have participated in the election, i.e., shown up at the polls, including those who did not cast ballots.
    */
-  readonly VotersParticipated?: integer;
+  VotersParticipated?: integer;
 
   /**
    * Number of registered voters residing within the boundaries of the geopolitical unit.
    */
-  readonly VotersRegistered?: integer;
+  VotersRegistered?: integer;
 }
 
 /**
@@ -2931,139 +2931,139 @@ export const ReportingUnitSchema: z.ZodSchema<ReportingUnit> = z.object({
  * This element uses BallotMeasureContest as a superclass. Therefore, it inherits the attributes of Contest as well as BallotMeasureContest.
  */
 export interface RetentionContest {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'ElectionResults.RetentionContest';
+  '@type': 'ElectionResults.RetentionContest';
 
   /**
    * Abbreviation for the contest.
    */
-  readonly Abbreviation?: string;
+  Abbreviation?: string;
 
   /**
    * Subtitle of the contest as it appears on the ballot.
    */
-  readonly BallotSubTitle?: InternationalizedText;
+  BallotSubTitle?: InternationalizedText;
 
   /**
    * Title of the contest as it appears on the ballot.
    */
-  readonly BallotTitle?: InternationalizedText;
+  BallotTitle?: InternationalizedText;
 
   /**
    * Link to a Candidate instance. For associating a candidate with the retention contest.
    */
-  readonly CandidateId: string;
+  CandidateId: string;
 
   /**
    * For a statement on the ballot associated with a “no” vote.
    */
-  readonly ConStatement?: InternationalizedText;
+  ConStatement?: InternationalizedText;
 
   /**
    * For associating a contest selection for the contest, i.e., a candidate, a ballot measure.
    */
-  readonly ContestSelection?: ReadonlyArray<PartySelection | BallotMeasureSelection | CandidateSelection>;
+  ContestSelection?: ReadonlyArray<PartySelection | BallotMeasureSelection | CandidateSelection>;
 
   /**
    * For providing various counting status associated with the contest.
    */
-  readonly CountStatus?: readonly CountStatus[];
+  CountStatus?:  CountStatus[];
 
   /**
    * For a statement on the ballot detailing the effect of abstaining from voting on the ballot measure.
    */
-  readonly EffectOfAbstain?: InternationalizedText;
+  EffectOfAbstain?: InternationalizedText;
 
   /**
    * Link to a GpUnit instance. For associating the contest with a reporting unit that represents the geographical scope of the contest, e.g., a district, etc.
    */
-  readonly ElectionDistrictId: string;
+  ElectionDistrictId: string;
 
   /**
    * For associating an ID with the contest.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * For full text on the ballot of the ballot measure.
    */
-  readonly FullText?: InternationalizedText;
+  FullText?: InternationalizedText;
 
   /**
    * Boolean to indicate whether the selections in the contest are rotated. Assumed to be “no” if not present.
    */
-  readonly HasRotation?: boolean;
+  HasRotation?: boolean;
 
   /**
    * For associating a URI with the ballot measure contest.
    */
-  readonly InfoUri?: readonly AnnotatedUri[];
+  InfoUri?:  AnnotatedUri[];
 
   /**
    * Name of the contest, not necessarily as it appears on the ballot.
    */
-  readonly Name: string;
+  Name: string;
 
   /**
    * Link to an Office instance. For associating an office description with the retention contest.
    */
-  readonly OfficeId?: string;
+  OfficeId?: string;
 
   /**
    * For associating counts such as overvote and undervotes with the contest.
    */
-  readonly OtherCounts?: readonly OtherCounts[];
+  OtherCounts?:  OtherCounts[];
 
   /**
    * Used when BallotMeasureType is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * For use when VoteVariation is other.
    */
-  readonly OtherVoteVariation?: string;
+  OtherVoteVariation?: string;
 
   /**
    * For a statement on the ballot of the number or percentage of votes needed to approve or pass the ballot measure.
    */
-  readonly PassageThreshold?: InternationalizedText;
+  PassageThreshold?: InternationalizedText;
 
   /**
    * For a statement on the ballot associated with a “yes” vote.
    */
-  readonly ProStatement?: InternationalizedText;
+  ProStatement?: InternationalizedText;
 
   /**
    * Orderering for listing the contest for purposes of results display.  If not present, no order is assumed.
    */
-  readonly SequenceOrder?: integer;
+  SequenceOrder?: integer;
 
   /**
    * Number of subunits, e.g., precincts, that have completed reporting votes for this contest.
    */
-  readonly SubUnitsReported?: integer;
+  SubUnitsReported?: integer;
 
   /**
    * For a summary on the ballot of the ballot measure.
    */
-  readonly SummaryText?: InternationalizedText;
+  SummaryText?: InternationalizedText;
 
   /**
    * Total number of subunits, e.g., precincts that have this contest on the ballot.
    */
-  readonly TotalSubUnits?: integer;
+  TotalSubUnits?: integer;
 
   /**
    * For indicating the type of ballot measure.
    */
-  readonly Type?: BallotMeasureType;
+  Type?: BallotMeasureType;
 
   /**
    * Vote variation associated with the contest, e.g., n-of-m.
    */
-  readonly VoteVariation?: VoteVariation;
+  VoteVariation?: VoteVariation;
 }
 
 /**
@@ -3104,42 +3104,42 @@ export const RetentionContestSchema: z.ZodSchema<RetentionContest> = z.object({
  * For defining a schedule associated with a particular election office or location. ContactInformation includes Schedule.
  */
 export interface Schedule {
-  readonly '@type': 'ElectionResults.Schedule';
+  '@type': 'ElectionResults.Schedule';
 
   /**
    * For the ending date of the schedule.
    */
-  readonly EndDate?: Date;
+  EndDate?: Date;
 
   /**
    * For specifying a range of hours for a schedule.
    */
-  readonly Hours?: readonly Hours[];
+  Hours?:  Hours[];
 
   /**
    * If an appointment is only by appointment; assumed to be “no” if not present.
    */
-  readonly IsOnlyByAppointment?: boolean;
+  IsOnlyByAppointment?: boolean;
 
   /**
    * If an appointment can by appointment presumably as desired; assumed to be “no” if not present.
    */
-  readonly IsOrByAppointment?: boolean;
+  IsOrByAppointment?: boolean;
 
   /**
    * If an appointment may be subject to change; assumed to be “no” if not present.
    */
-  readonly IsSubjectToChange?: boolean;
+  IsSubjectToChange?: boolean;
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * For the starting date of the schedule.
    */
-  readonly StartDate?: Date;
+  StartDate?: Date;
 }
 
 /**
@@ -3160,18 +3160,18 @@ export const ScheduleSchema: z.ZodSchema<Schedule> = z.object({
  * For defining the spatial layout of a GpUnit, e.g., a map or a spatial extent (a polygon that shows the related area) for various purposes, including to visualize election results, to understand the composition of districts, or to determine whether GpUnit instances are properly related. GpUnit includes SpatialDimension.
  */
 export interface SpatialDimension {
-  readonly '@type': 'ElectionResults.SpatialDimension';
+  '@type': 'ElectionResults.SpatialDimension';
 
   /**
    * Typically a URI to a map of the GpUnit.
    */
-  readonly MapUri?: readonly AnnotatedUri[];
+  MapUri?:  AnnotatedUri[];
 
   /**
    * For associating a GpUnit
    *       element&#8217;s spatial extent information.
    */
-  readonly SpatialExtent?: SpatialExtent;
+  SpatialExtent?: SpatialExtent;
 }
 
 /**
@@ -3187,17 +3187,17 @@ export const SpatialDimensionSchema: z.ZodSchema<SpatialDimension> = z.object({
  * SpatialDimension includes SpatialExtent for defining a GpUnit instance's spatial extent data and the format used for the spatial extent.
  */
 export interface SpatialExtent {
-  readonly '@type': 'ElectionResults.SpatialExtent';
+  '@type': 'ElectionResults.SpatialExtent';
 
   /**
    * The data coordinates constituting the spatial extent.
    */
-  readonly Coordinates: string;
+  Coordinates: string;
 
   /**
    * Enumerated type for the format used, e.g., gml, kml, wkt, etc.
    */
-  readonly Format: GeoSpatialFormat;
+  Format: GeoSpatialFormat;
 }
 
 /**
@@ -3213,27 +3213,27 @@ export const SpatialExtentSchema: z.ZodSchema<SpatialExtent> = z.object({
  * For describing information about an office term. Term is included by Office.
  */
 export interface Term {
-  readonly '@type': 'ElectionResults.Term';
+  '@type': 'ElectionResults.Term';
 
   /**
    * End date for the current term of the office.
    */
-  readonly EndDate?: Date;
+  EndDate?: Date;
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * Start date for the current term of the office.
    */
-  readonly StartDate?: Date;
+  StartDate?: Date;
 
   /**
    * Enumerated type of term, e.g., full-term, unexpired-term, etc.
    */
-  readonly Type?: OfficeTermType;
+  Type?: OfficeTermType;
 }
 
 /**
@@ -3251,42 +3251,42 @@ export const TermSchema: z.ZodSchema<Term> = z.object({
  * For reporting on vote counts for contest selections in a contest. VoteCounts includes Counts as an extension base and therefore inherits the elements from Counts, but it is included directly by ContestSelection.
  */
 export interface VoteCounts {
-  readonly '@type': 'ElectionResults.VoteCounts';
+  '@type': 'ElectionResults.VoteCounts';
 
   /**
    * Count of contest votes cast; can include a fractional component in special cases.
    */
-  readonly Count: number;
+  Count: number;
 
   /**
    * For filtering counts by device type.
    */
-  readonly DeviceClass?: DeviceClass;
+  DeviceClass?: DeviceClass;
 
   /**
    * For filtering counts by political geography or device or device type.
    */
-  readonly GpUnitId: string;
+  GpUnitId: string;
 
   /**
    * Boolean to indicate if votes are suppressed for voter privacy, e.g., true or false. Assumed to be false if not present.
    */
-  readonly IsSuppressedForPrivacy?: boolean;
+  IsSuppressedForPrivacy?: boolean;
 
   /**
    * Used when Type is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * An identification of the RCV round being reported.
    */
-  readonly Round?: integer;
+  Round?: integer;
 
   /**
    * The type of count being used as a filter on the vote counts, e.g., election day, early voting, etc.
    */
-  readonly Type: CountItemType;
+  Type: CountItemType;
 }
 
 /**

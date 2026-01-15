@@ -307,77 +307,77 @@ export const ShapeTypeSchema = z.enum(ShapeType);
  * BallotDefinition references the major elements that are not necessarily specific to an election and that therefore can exist in a logical ballot definition: GpUnit, Office and OfficeGroup, Party, Person, and Election.
  */
 export interface BallotDefinition {
-  readonly '@type': 'BallotDefinition.BallotDefinition';
+  '@type': 'BallotDefinition.BallotDefinition';
 
   /**
    * For associating ballot formats with the definition.
    */
-  readonly BallotFormat: readonly BallotFormat[];
+  BallotFormat: BallotFormat[];
 
   /**
    * For associating elections with the definition.
    */
-  readonly Election: readonly Election[];
+  Election: Election[];
 
   /**
    * Identifies the date and time that the ballot definition was generated.
    */
-  readonly GeneratedDate: DateTimeWithZone;
+  GeneratedDate: DateTimeWithZone;
 
   /**
    * For associating geopolitical units with the definition.
    */
-  readonly GpUnit: readonly ReportingUnit[];
+  GpUnit: ReportingUnit[];
 
   /**
    * For associating headers with parts of a ballot style.
    */
-  readonly Header?: readonly Header[];
+  Header?:  Header[];
 
   /**
    * Identification of the definition issuer.
    */
-  readonly Issuer: string;
+  Issuer: string;
 
   /**
    * An abbreviation of the definition issuer such as the 2-character U.S. Census Bureau abbreviation of the state providing the election definition, e.g., AL, TX, MN, etc.
    */
-  readonly IssuerAbbreviation: string;
+  IssuerAbbreviation: string;
 
   /**
    * For associating offices with the definition.
    */
-  readonly Office?: readonly Office[];
+  Office?:  Office[];
 
   /**
    * For associating parties with the definition.
    */
-  readonly Party: readonly Party[];
+  Party: Party[];
 
   /**
    * The upper bound of the sequence; e.g., “1” if there is only 1 report, “2” if there are two reports in the sequence, etc.
    */
-  readonly SequenceEnd: integer;
+  SequenceEnd: integer;
 
   /**
    * The report's number as part of a sequence of reports, used with SequenceEnd so as to be read as, e.g., 1 of 1, 1 of 2, 2 of 2, etc.  Starts with "1".
    */
-  readonly SequenceStart: integer;
+  SequenceStart: integer;
 
   /**
    * For associating parts of the ballot with geometric shapes.
    */
-  readonly Shape?: readonly Shape[];
+  Shape?:  Shape[];
 
   /**
    * An identifier of the vendor application generating the ballot definition, e.g., X-EMS version 3.1.a.
    */
-  readonly VendorApplicationId: string;
+  VendorApplicationId: string;
 
   /**
    * To identify the version of the BD specification being used, i.e., version 1.0.0. This will need to be updated for different versions of the specification.
    */
-  readonly Version: BallotDefinitionVersion;
+  Version: BallotDefinitionVersion;
 }
 
 /**
@@ -407,59 +407,59 @@ export const BallotDefinitionSchema: z.ZodSchema<BallotDefinition> = z.object({
  * BallotFormat sets the MeasurementUnit appropriate for the marking surface used.
  */
 export interface BallotFormat {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.BallotFormat';
+  '@type': 'BallotDefinition.BallotFormat';
 
   /**
    * The application that generates ballots in the ballot format.
    */
-  readonly Application?: string;
+  Application?: string;
 
   /**
    * For associating IDs with the ballot format.
    */
-  readonly ExternalIdentifier: readonly ExternalIdentifier[];
+  ExternalIdentifier: ExternalIdentifier[];
 
   /**
    * For associating a ballot format with one or more global fiducial marks appearing on a ballot.
    */
-  readonly FiducialMark?: readonly FiducialMark[];
+  FiducialMark?:  FiducialMark[];
 
   /**
    * Measurement of the long edge of the ballot sheet.
    */
-  readonly LongEdge: number;
+  LongEdge: number;
 
   /**
    * Manufacturer of the ballot format.
    */
-  readonly Manufacturer?: string;
+  Manufacturer?: string;
 
   /**
    * The measurement units used to express locations of ballot content, such as contest option positions.
    */
-  readonly MeasurementUnit: MeasurementUnitType;
+  MeasurementUnit: MeasurementUnitType;
 
   /**
    * Orientation of the page relative to the coordinate plane.
    */
-  readonly Orientation: OrientationType;
+  Orientation: OrientationType;
 
   /**
    * The method used to read contest selections or indications on the ballot.
    */
-  readonly SelectionCaptureMethod: SelectionCaptureMethod;
+  SelectionCaptureMethod: SelectionCaptureMethod;
 
   /**
    * Measurement of the short edge of the ballot sheet.
    */
-  readonly ShortEdge: number;
+  ShortEdge: number;
 
   /**
    * For locating the data encoded using a mCDF Profile (e.g. mCDF Profile for Contest Selection Capture).
    */
-  readonly mCDFArea?: readonly mCDFArea[];
+  mCDFArea?:  mCDFArea[];
 }
 
 /**
@@ -486,34 +486,34 @@ export const BallotFormatSchema: z.ZodSchema<BallotFormat> = z.object({
  * If the type of ballot measure is not listed in enumeration BallotMeasureType, use other and include the type (that is not listed in the enumeration) in OtherType.
  */
 export interface BallotMeasureContest {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.BallotMeasureContest';
+  '@type': 'BallotDefinition.BallotMeasureContest';
 
   /**
    * Title of the contest as it appears on the ballot.
    */
-  readonly BallotTitle: InternationalizedText;
+  BallotTitle: InternationalizedText;
 
   /**
    * For associating contest options for the contest, e.g., candidates,  ballot measure options.
    */
-  readonly ContestOption: readonly BallotMeasureOption[];
+  ContestOption: BallotMeasureOption[];
 
   /**
    * Link to a GpUnit instance. For associating the contest with a reporting unit that represents the geographical scope of the contest, e.g., a district, etc.
    */
-  readonly ElectionDistrictId: string;
+  ElectionDistrictId: string;
 
   /**
    * For full text on the ballot of the ballot measure.
    */
-  readonly FullText: InternationalizedText;
+  FullText: InternationalizedText;
 
   /**
    * Name of the contest, not necessarily as it appears on the ballot.
    */
-  readonly Name: string;
+  Name: string;
 }
 
 /**
@@ -533,14 +533,14 @@ export const BallotMeasureContestSchema: z.ZodSchema<BallotMeasureContest> = z.o
  * For a contest selection in a ballot measure contest. Because judicial or other retention contests are often treated like ballot measure contests, this element can be used also for retention contests. It inherits the attributes of ContestOption.
  */
 export interface BallotMeasureOption {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.BallotMeasureOption';
+  '@type': 'BallotDefinition.BallotMeasureOption';
 
   /**
    * Contains the text used to indicate a vote for or against the ballot measure, e.g., “yes”, “no”.
    */
-  readonly Selection: InternationalizedText;
+  Selection: InternationalizedText;
 }
 
 /**
@@ -558,32 +558,32 @@ export const BallotMeasureOptionSchema: z.ZodSchema<BallotMeasureOption> = z.obj
  * BallotStyle references one or more GpUnit instances defined for the associated precincts or split precincts. If the ballot style is associated with multiple precincts (or other geographies), multiple references to the precinct GpUnit instances can be included.
  */
 export interface BallotStyle {
-  readonly '@type': 'BallotDefinition.BallotStyle';
+  '@type': 'BallotDefinition.BallotStyle';
 
   /**
    * For associating IDs with the ballot style.
    */
-  readonly ExternalIdentifier: readonly ExternalIdentifier[];
+  ExternalIdentifier: ExternalIdentifier[];
 
   /**
    * Unique identifier for one or more GpUnit instances.  For associating specific election administrative areas (e.g. precincts or splits) with the ballot style.
    */
-  readonly GpUnitIds: readonly string[];
+  GpUnitIds: string[];
 
   /**
    * For the written languages appearing on the ballot style.
    */
-  readonly Language?: readonly string[];
+  Language?:  string[];
 
   /**
    * For associating a ballot style with ballot content, such as contests or headers.
    */
-  readonly OrderedContent?: readonly OrderedContest[];
+  OrderedContent?:  OrderedContest[];
 
   /**
    * For associating one or more parties with the ballot style.
    */
-  readonly PartyIds?: readonly string[];
+  PartyIds?:  string[];
 }
 
 /**
@@ -613,37 +613,37 @@ export const BallotStyleSchema: z.ZodSchema<BallotStyle> = z.object({
  * WriteInPosition, included by PhysicalContestOption
  */
 export interface BoundedObject {
-  readonly '@type': 'BallotDefinition.BoundedObject';
+  '@type': 'BallotDefinition.BoundedObject';
 
   /**
    * Height in ballot format measurement units.
    */
-  readonly H: number;
+  H: number;
 
   /**
    * The ballot sheet the bounded object appears on. Sheets start at 1 and increase monotonically. Does not apply to mCDFArea, or global fiducials.
    */
-  readonly Sheet?: integer;
+  Sheet?: integer;
 
   /**
    * The side of the sheet of paper the bounded object appears.
    */
-  readonly Side: BallotSideType;
+  Side: BallotSideType;
 
   /**
    * Width in ballot format measurement units.
    */
-  readonly W: number;
+  W: number;
 
   /**
    * X-coordinate for locating a bounded object (top left anchor).
    */
-  readonly X: number;
+  X: number;
 
   /**
    * Y-coordinate for locating a bounded object (top left anchor).
    */
-  readonly Y: number;
+  Y: number;
 }
 
 /**
@@ -667,14 +667,14 @@ export const BoundedObjectSchema: z.ZodSchema<BoundedObject> = z.object({
  * ExternalIdentifier can be used to associate IDs with the candidate. If the type is not listed in enumeration IdentifierType, use other and include the type (that is not listed in the enumeration) in OtherType.
  */
 export interface Candidate {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.Candidate';
+  '@type': 'BallotDefinition.Candidate';
 
   /**
    * For the candidate’s name as listed on the ballot.
    */
-  readonly BallotName: InternationalizedText;
+  BallotName: InternationalizedText;
 }
 
 /**
@@ -694,44 +694,44 @@ export const CandidateSchema: z.ZodSchema<Candidate> = z.object({
  * Note that when using the CandidateOption class to associate the candidates with a contest selection for the contest, the order of the candidates should match the order of offices. Again, using the example of the state governor ticket, if the offices are listed with Governor first and Lt. Governor second, then the order of the candidates in the ContestOption instance should be identical, with the Governor candidate first and the Lt. Governor candidate second.
  */
 export interface CandidateContest {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.CandidateContest';
+  '@type': 'BallotDefinition.CandidateContest';
 
   /**
    * Title of the contest as it appears on the ballot.
    */
-  readonly BallotTitle: InternationalizedText;
+  BallotTitle: InternationalizedText;
 
   /**
    * For associating contest options for the contest, e.g., candidates,  ballot measure options.
    */
-  readonly ContestOption: readonly CandidateOption[];
+  ContestOption: CandidateOption[];
 
   /**
    * Link to a GpUnit instance. For associating the contest with a reporting unit that represents the geographical scope of the contest, e.g., a district, etc.
    */
-  readonly ElectionDistrictId: string;
+  ElectionDistrictId: string;
 
   /**
    * Name of the contest, not necessarily as it appears on the ballot.
    */
-  readonly Name: string;
+  Name: string;
 
   /**
    * For associating office descriptions.
    */
-  readonly OfficeIds?: readonly string[];
+  OfficeIds?:  string[];
 
   /**
    * For associating parties with the contest.
    */
-  readonly PrimaryPartyIds?: readonly string[];
+  PrimaryPartyIds?:  string[];
 
   /**
    * Maximum number of votes per voter in this contest.
    */
-  readonly VotesAllowed: integer;
+  VotesAllowed: integer;
 }
 
 /**
@@ -757,24 +757,24 @@ export const CandidateContestSchema: z.ZodSchema<CandidateContest> = z.object({
  * When multiple candidates are referenced for a ticket and the ordering of the candidates is important to preserve, it is expected that the generating application will list the references to Candidate instances according to the ordering scheme in place. For example, if the contest is for a ticket in which each candidate is associated with a different office, then the order of the candidates should match the same ordering of the &lt;Office&gt; element references within &lt;OfficeIds&gt; in the &lt;Contest xsi:type=&quot;CandidateContest&quot; ... /&gt; element.
  */
 export interface CandidateOption {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.CandidateOption';
+  '@type': 'BallotDefinition.CandidateOption';
 
   /**
    * For associating a candidate with the candidate selection on the ballot and for cases where the contest selection is for multiple candidates, e.g., a ticket.
    */
-  readonly CandidateIds?: readonly string[];
+  CandidateIds?:  string[];
 
   /**
    * For associating one or more endorsing parties with the candidate selection.
    */
-  readonly EndorsementPartyIds?: readonly string[];
+  EndorsementPartyIds?:  string[];
 
   /**
    * Indicates whether the candidate is a write-in, e.g., true or false. Assumed to be false if not present.
    */
-  readonly IsWriteIn?: boolean;
+  IsWriteIn?: boolean;
 }
 
 /**
@@ -796,52 +796,52 @@ export const CandidateOptionSchema: z.ZodSchema<CandidateOption> = z.object({
  * Election includes a required reference to ElectionScope, which links to a GpUnit instance for the purpose of identifying the geographical scope of the election. For example, for an election within a county, ElectionScope would reference a GpUnit defined for the county. If it is desired to include election authority information, the GpUnit can include ElectionAdministration.
  */
 export interface Election {
-  readonly '@type': 'BallotDefinition.Election';
+  '@type': 'BallotDefinition.Election';
 
   /**
    * For defining ballot styles associated with the election.
    */
-  readonly BallotStyle: readonly BallotStyle[];
+  BallotStyle: BallotStyle[];
 
   /**
    * For defining candidates associated with the election.
    */
-  readonly Candidate?: readonly Candidate[];
+  Candidate?:  Candidate[];
 
   /**
    * For defining contests associated with the election.
    */
-  readonly Contest: ReadonlyArray<BallotMeasureContest | CandidateContest>;
+  Contest: ReadonlyArray<BallotMeasureContest | CandidateContest>;
 
   /**
    * Unique identifier for a GpUnit element. For associating the election with a reporting unit that represents the geographical scope of the election, e.g., a state, a county, etc.
    */
-  readonly ElectionScopeId: string;
+  ElectionScopeId: string;
 
   /**
    * Calendar end date of the election; for a typical one-day election, the end date is the same as the start date.
    */
-  readonly EndDate: Date;
+  EndDate: Date;
 
   /**
    * For associating IDs with the election.
    */
-  readonly ExternalIdentifier: readonly ExternalIdentifier[];
+  ExternalIdentifier: ExternalIdentifier[];
 
   /**
    * For including a name for the election; the name could be the same name as appears on the ballot.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 
   /**
    * Calendar start date of the election, e.g., “2018-11-04”.
    */
-  readonly StartDate: Date;
+  StartDate: Date;
 
   /**
    * Enumerated type of election, e.g., partisan-primary, open-primary, etc.
    */
-  readonly Type: ElectionType;
+  Type: ElectionType;
 }
 
 /**
@@ -866,27 +866,27 @@ export const ElectionSchema: z.ZodSchema<Election> = z.object({
  * For elements that link to ExternalIdentifier instances, if the type is not listed in enumeration IdentifierType, use other and include the type (that is not listed in the enumeration) in OtherType.
  */
 export interface ExternalIdentifier {
-  readonly '@type': 'BallotDefinition.ExternalIdentifier';
+  '@type': 'BallotDefinition.ExternalIdentifier';
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * Used when IdentifierType value is other.
    */
-  readonly OtherType?: string;
+  OtherType?: string;
 
   /**
    * An identifier type, e.g., FIPS.
    */
-  readonly Type: IdentifierType;
+  Type: IdentifierType;
 
   /**
    * The identifier used by the jurisdiction.
    */
-  readonly Value: string;
+  Value: string;
 }
 
 /**
@@ -904,42 +904,42 @@ export const ExternalIdentifierSchema: z.ZodSchema<ExternalIdentifier> = z.objec
  * FiducialMark is a subclass of BoundedObject for geometry found at fixed positions of the page. BallotFormat references FiducialMark for geometry found at fixed locations on the ballot. PhysicalContest references FiducialMark for geometry proximate to the contest.
  */
 export interface FiducialMark {
-  readonly '@type': 'BallotDefinition.FiducialMark';
+  '@type': 'BallotDefinition.FiducialMark';
 
   /**
    * Height in ballot format measurement units.
    */
-  readonly H: number;
+  H: number;
 
   /**
    * For associating a FiducialMark with the geometric shape that represents it.
    */
-  readonly ShapeId: string;
+  ShapeId: string;
 
   /**
    * The ballot sheet the bounded object appears on. Sheets start at 1 and increase monotonically. Does not apply to mCDFArea, or global fiducials.
    */
-  readonly Sheet?: integer;
+  Sheet?: integer;
 
   /**
    * The side of the sheet of paper the bounded object appears.
    */
-  readonly Side: BallotSideType;
+  Side: BallotSideType;
 
   /**
    * Width in ballot format measurement units.
    */
-  readonly W: number;
+  W: number;
 
   /**
    * X-coordinate for locating a bounded object (top left anchor).
    */
-  readonly X: number;
+  X: number;
 
   /**
    * Y-coordinate for locating a bounded object (top left anchor).
    */
-  readonly Y: number;
+  Y: number;
 }
 
 /**
@@ -960,24 +960,24 @@ export const FiducialMarkSchema: z.ZodSchema<FiducialMark> = z.object({
  * For defining a reusable set of headers.
  */
 export interface Header {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.Header';
+  '@type': 'BallotDefinition.Header';
 
   /**
    * For associating an ID with the header.
    */
-  readonly ExternalIdentifier?: readonly ExternalIdentifier[];
+  ExternalIdentifier?:  ExternalIdentifier[];
 
   /**
    * For textual content appearing under a header (e.g. ballot instructions).
    */
-  readonly HeaderedContent?: InternationalizedText;
+  HeaderedContent?: InternationalizedText;
 
   /**
    * Name of the header, as it is to appear on a ballot style.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 }
 
 /**
@@ -1015,17 +1015,17 @@ export const HeaderSchema: z.ZodSchema<Header> = z.object({
  * ko – Korean
  */
 export interface InternationalizedText {
-  readonly '@type': 'BallotDefinition.InternationalizedText';
+  '@type': 'BallotDefinition.InternationalizedText';
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label?: string;
+  Label?: string;
 
   /**
    * Used to hold a string of text with an associated table indicating the language used.
    */
-  readonly Text: readonly LanguageString[];
+  Text: LanguageString[];
 }
 
 /**
@@ -1041,14 +1041,14 @@ export const InternationalizedTextSchema: z.ZodSchema<InternationalizedText> = z
  * Used to hold a string of text with an associated table indicating the language used.
  */
 export interface LanguageString {
-  readonly '@type': 'BallotDefinition.LanguageString';
+  '@type': 'BallotDefinition.LanguageString';
 
-  readonly Content: string;
+  Content: string;
 
   /**
    * Identification of the language, such as 'es'.
    */
-  readonly Language: string;
+  Language: string;
 }
 
 /**
@@ -1068,19 +1068,19 @@ export const LanguageStringSchema: z.ZodSchema<LanguageString> = z.object({
  * Office includes an optional ElectionDistrict reference to a GpUnit for the purpose of identifying the geographical scope of the office. For example, for an office for a state senate seat, ElectionDistrict would include a reference to the GpUnit defined for the district associated with that office.
  */
 export interface Office {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.Office';
+  '@type': 'BallotDefinition.Office';
 
   /**
    * Name of the office; can appear on the ballot.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 
   /**
    * For including office term-related information.
    */
-  readonly Term: Term;
+  Term: Term;
 }
 
 /**
@@ -1097,57 +1097,57 @@ export const OfficeSchema: z.ZodSchema<Office> = z.object({
  * For associating a physical contest option to the location(s) where a selection can be indicated. It inherits the properties of BoundedObject.
  */
 export interface OptionPosition {
-  readonly '@type': 'BallotDefinition.OptionPosition';
+  '@type': 'BallotDefinition.OptionPosition';
 
   /**
    * The proper fractional number of votes represented by the option position.
    */
-  readonly FractionalVotes?: FractionalNumber;
+  FractionalVotes?: FractionalNumber;
 
   /**
    * Height in ballot format measurement units.
    */
-  readonly H: number;
+  H: number;
 
   /**
    * For associating an OptionPosition with the shape that conveys the expected location of a mark.
    */
-  readonly IndicatorId?: string;
+  IndicatorId?: string;
 
   /**
    * The number of votes represented by the option position.
    */
-  readonly NumberVotes: integer;
+  NumberVotes: integer;
 
   /**
    * The rank represented by the option position, if a RCV contest.
    */
-  readonly Rank?: integer;
+  Rank?: integer;
 
   /**
    * The ballot sheet the bounded object appears on. Sheets start at 1 and increase monotonically. Does not apply to mCDFArea, or global fiducials.
    */
-  readonly Sheet: integer;
+  Sheet: integer;
 
   /**
    * The side of the sheet of paper the bounded object appears.
    */
-  readonly Side: BallotSideType;
+  Side: BallotSideType;
 
   /**
    * Width in ballot format measurement units.
    */
-  readonly W: number;
+  W: number;
 
   /**
    * X-coordinate for locating a bounded object (top left anchor).
    */
-  readonly X: number;
+  X: number;
 
   /**
    * Y-coordinate for locating a bounded object (top left anchor).
    */
-  readonly Y: number;
+  Y: number;
 }
 
 /**
@@ -1171,17 +1171,17 @@ export const OptionPositionSchema: z.ZodSchema<OptionPosition> = z.object({
  * For the appearance of a contest on a particular ballot style.This property uses OrderedContent as a superclass.
  */
 export interface OrderedContest {
-  readonly '@type': 'BallotDefinition.OrderedContest';
+  '@type': 'BallotDefinition.OrderedContest';
 
   /**
    * The contest associated represented by OrderedContest.
    */
-  readonly ContestId: string;
+  ContestId: string;
 
   /**
    * For describing the physical aspects of the contest.
    */
-  readonly Physical: readonly PhysicalContest[];
+  Physical: PhysicalContest[];
 }
 
 /**
@@ -1201,19 +1201,19 @@ export const OrderedContestSchema: z.ZodSchema<OrderedContest> = z.object({
  * The Color attribute specifies a 6-digit RGB code displayable using HTML.
  */
 export interface Party {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.Party';
+  '@type': 'BallotDefinition.Party';
 
   /**
    * Short name for the party, e.g., “DEM”.
    */
-  readonly Abbreviation: InternationalizedText;
+  Abbreviation: InternationalizedText;
 
   /**
    * Official full name of the party, e.g., “Republican”; can appear on the ballot.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 }
 
 /**
@@ -1230,27 +1230,27 @@ export const PartySchema: z.ZodSchema<Party> = z.object({
  * For the appearance of a contest on a particular ballot style with physical details such as the locations and shapes of contest option positions.
  */
 export interface PhysicalContest {
-  readonly '@type': 'BallotDefinition.PhysicalContest';
+  '@type': 'BallotDefinition.PhysicalContest';
 
   /**
    * For associating a ballot format with a physical contest.
    */
-  readonly BallotFormatId: string;
+  BallotFormatId: string;
 
   /**
    * The extent of the contest. If the contest spans multiple sections of the ballot (e.g. columns or pages), then multiple extents may be provided.
    */
-  readonly Extent?: ReadonlyArray<BoundedObject | FiducialMark | OptionPosition | WriteInPosition | mCDFArea>;
+  Extent?: ReadonlyArray<BoundedObject | FiducialMark | OptionPosition | WriteInPosition | mCDFArea>;
 
   /**
    * For associating a ordered physical contest with one or more local fiducial marks appearing near the contest.
    */
-  readonly FiducialMark?: readonly FiducialMark[];
+  FiducialMark?:  FiducialMark[];
 
   /**
    * The contest options associated with the contest, including physical details.
    */
-  readonly PhysicalContestOption: readonly PhysicalContestOption[];
+  PhysicalContestOption: PhysicalContestOption[];
 }
 
 /**
@@ -1268,22 +1268,22 @@ export const PhysicalContestSchema: z.ZodSchema<PhysicalContest> = z.object({
  * For associating a ContestOption to its physical manifestation. Each PhysicalContestOption is specified in terms of a particular BallotFormat. A PhysicalContestOption may have multiple OptionPosition instances, for voting methods that require it (e.g. rank choice voting). WriteInPosition specifies the response area where name(s) may written-in.
  */
 export interface PhysicalContestOption {
-  readonly '@type': 'BallotDefinition.PhysicalContestOption';
+  '@type': 'BallotDefinition.PhysicalContestOption';
 
   /**
    * For associating a PhysicalContestOption with a ContestOption. This should always be provided unless the contest option is for a write-in.
    */
-  readonly ContestOptionId: string;
+  ContestOptionId: string;
 
   /**
    * For defining locations where a selection can be indicated.
    */
-  readonly OptionPosition: readonly OptionPosition[];
+  OptionPosition: OptionPosition[];
 
   /**
    * For defining locations where a name can be hand-written.
    */
-  readonly WriteInPosition?: readonly WriteInPosition[];
+  WriteInPosition?:  WriteInPosition[];
 }
 
 /**
@@ -1308,24 +1308,24 @@ export const PhysicalContestOptionSchema: z.ZodSchema<PhysicalContestOption> = z
  * The IsDistricted boolean can be used in a number of ways. It is not strictly necessary, as it is possible to identify districts by their Type attribute or by examining the Contest instance's ElectionDistrict reference, which links to the election district associated with the contest. However, if a district is defined but is not linked from a contest, or if the type of district is not listed in the ReportingUnitType enumeration and therefore OtherType is used, then IsDistricted is necessary to identify the GpUnit as a district. The IsDistricted boolean can also be used to signify that a GpUnit defined as a jurisdiction, e.g., a county, is also used as a district for, e.g., county-wide contests.
  */
 export interface ReportingUnit {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.ReportingUnit';
+  '@type': 'BallotDefinition.ReportingUnit';
 
   /**
    * Unique identifier for one or more GpUnit instances.  For creating a reference to another GpUnit that is contained with the parent GpUnit.
    */
-  readonly ComposingGpUnitIds?: readonly string[];
+  ComposingGpUnitIds?:  string[];
 
   /**
    * Name of the geopolitical unit.
    */
-  readonly Name: InternationalizedText;
+  Name: InternationalizedText;
 
   /**
    * Enumerated type of reporting unit, e.g., state, county, district, precinct, etc.
    */
-  readonly Type: ReportingUnitType;
+  Type: ReportingUnitType;
 }
 
 /**
@@ -1345,29 +1345,29 @@ export const ReportingUnitSchema: z.ZodSchema<ReportingUnit> = z.object({
  * Strokes when applied, are applied evenhanded.
  */
 export interface Shape {
-  readonly '@id': string;
+  '@id': string;
 
-  readonly '@type': 'BallotDefinition.Shape';
+  '@type': 'BallotDefinition.Shape';
 
   /**
    * For fiducial marks only. If not specified, no fill is assumed.
    */
-  readonly FillColor?: HtmlColorString;
+  FillColor?: HtmlColorString;
 
   /**
    * The shape this Geometry represents.
    */
-  readonly ShapeType: ShapeType;
+  ShapeType: ShapeType;
 
   /**
    * The color of the stroke. If no color is specified, assume black (what XFA does)
    */
-  readonly StrokeColor?: HtmlColorString;
+  StrokeColor?: HtmlColorString;
 
   /**
    * The width of the stroke in the measurement units of the BallotFormat associated with the PhysicalContest.
    */
-  readonly StrokeWidth?: number;
+  StrokeWidth?: number;
 }
 
 /**
@@ -1386,12 +1386,12 @@ export const ShapeSchema: z.ZodSchema<Shape> = z.object({
  * For describing information about an office term. Term is included by Office.
  */
 export interface Term {
-  readonly '@type': 'BallotDefinition.Term';
+  '@type': 'BallotDefinition.Term';
 
   /**
    * For use as needed and compatibility with the VIP schema.
    */
-  readonly Label: string;
+  Label: string;
 }
 
 /**
@@ -1406,42 +1406,42 @@ export const TermSchema: z.ZodSchema<Term> = z.object({
  * Response area for representing a particular candidate, e.g. John Smith hand printed. It inherits the properties of BoundedObject.
  */
 export interface WriteInPosition {
-  readonly '@type': 'BallotDefinition.WriteInPosition';
+  '@type': 'BallotDefinition.WriteInPosition';
 
   /**
    * Height in ballot format measurement units.
    */
-  readonly H: number;
+  H: number;
 
   /**
    * Whether a selection in an OptionPosition is required in order to count the write-in. Assumed to be false if not present.
    */
-  readonly SelectionRequired?: boolean;
+  SelectionRequired?: boolean;
 
   /**
    * The ballot sheet the bounded object appears on. Sheets start at 1 and increase monotonically. Does not apply to mCDFArea, or global fiducials.
    */
-  readonly Sheet?: integer;
+  Sheet?: integer;
 
   /**
    * The side of the sheet of paper the bounded object appears.
    */
-  readonly Side: BallotSideType;
+  Side: BallotSideType;
 
   /**
    * Width in ballot format measurement units.
    */
-  readonly W: number;
+  W: number;
 
   /**
    * X-coordinate for locating a bounded object (top left anchor).
    */
-  readonly X: number;
+  X: number;
 
   /**
    * Y-coordinate for locating a bounded object (top left anchor).
    */
-  readonly Y: number;
+  Y: number;
 }
 
 /**
@@ -1462,42 +1462,42 @@ export const WriteInPositionSchema: z.ZodSchema<WriteInPosition> = z.object({
  * A part of the ballot containing an instantiation of the microCDF. It inherits the properties of BoundedObject.
  */
 export interface mCDFArea {
-  readonly '@type': 'BallotDefinition.mCDFArea';
+  '@type': 'BallotDefinition.mCDFArea';
 
   /**
    * Height in ballot format measurement units.
    */
-  readonly H: number;
+  H: number;
 
   /**
    * The ballot sheet the bounded object appears on. Sheets start at 1 and increase monotonically. Does not apply to mCDFArea, or global fiducials.
    */
-  readonly Sheet?: integer;
+  Sheet?: integer;
 
   /**
    * The side of the sheet of paper the bounded object appears.
    */
-  readonly Side: BallotSideType;
+  Side: BallotSideType;
 
   /**
    * The name of the symbology used.
    */
-  readonly Symbology: string;
+  Symbology: string;
 
   /**
    * Width in ballot format measurement units.
    */
-  readonly W: number;
+  W: number;
 
   /**
    * X-coordinate for locating a bounded object (top left anchor).
    */
-  readonly X: number;
+  X: number;
 
   /**
    * Y-coordinate for locating a bounded object (top left anchor).
    */
-  readonly Y: number;
+  Y: number;
 }
 
 /**

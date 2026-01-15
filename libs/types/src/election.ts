@@ -43,10 +43,10 @@ function* findDuplicateIds<T extends { id: unknown }>(
 export type PartyId = string;
 export const PartyIdSchema = IdSchema as unknown as z.ZodSchema<PartyId>;
 export interface Party {
-  readonly id: PartyId;
-  readonly name: string;
-  readonly fullName: string;
-  readonly abbrev: string;
+  id: PartyId;
+  name: string;
+  fullName: string;
+  abbrev: string;
 }
 export const PartySchema: z.ZodSchema<Party> = z.object({
   id: PartyIdSchema,
@@ -55,7 +55,7 @@ export const PartySchema: z.ZodSchema<Party> = z.object({
   abbrev: z.string().nonempty(),
 });
 
-export type Parties = readonly Party[];
+export type Parties = Party[];
 export const PartiesSchema: z.ZodSchema<Parties> = z
   .array(PartySchema)
   .check((ctx) => {
@@ -73,8 +73,8 @@ export const PartiesSchema: z.ZodSchema<Parties> = z
 export type DistrictId = string;
 export const DistrictIdSchema = IdSchema as unknown as z.ZodSchema<DistrictId>;
 export interface District {
-  readonly id: DistrictId;
-  readonly name: string;
+  id: DistrictId;
+  name: string;
 }
 export const DistrictSchema: z.ZodSchema<District> = z.object({
   id: DistrictIdSchema,
@@ -110,15 +110,15 @@ export const CandidateIdSchema: z.ZodSchema<CandidateId> = z.union([
   WriteInIdSchema,
 ]);
 export interface Candidate {
-  readonly id: CandidateId;
-  readonly name: string;
-  readonly partyIds?: readonly PartyId[];
-  readonly isWriteIn?: boolean;
-  readonly writeInIndex?: number;
+  id: CandidateId;
+  name: string;
+  partyIds?:  PartyId[];
+  isWriteIn?: boolean;
+  writeInIndex?: number;
   // Structured name properties are supported only in VxDesign.
-  readonly firstName?: string;
-  readonly middleName?: string;
-  readonly lastName?: string;
+  firstName?: string;
+  middleName?: string;
+  lastName?: string;
 }
 export const CandidateSchema: z.ZodSchema<Candidate> = z
   .object({
@@ -146,11 +146,11 @@ export const CandidateSchema: z.ZodSchema<Candidate> = z
   );
 
 export interface WriteInCandidate {
-  readonly id: WriteInId;
-  readonly name: string;
-  readonly isWriteIn: true;
-  readonly writeInIndex?: number;
-  readonly partyIds?: readonly PartyId[];
+  id: WriteInId;
+  name: string;
+  isWriteIn: true;
+  writeInIndex?: number;
+  partyIds?:  PartyId[];
 }
 export const WriteInCandidateSchema: z.ZodSchema<WriteInCandidate> = z.object({
   id: WriteInIdSchema,
@@ -173,10 +173,10 @@ export const ContestTypesSchema: z.ZodSchema<ContestTypes> = z.union([
 export type ContestId = Id;
 export const ContestIdSchema: z.ZodSchema<ContestId> = IdSchema;
 export interface Contest {
-  readonly id: ContestId;
-  readonly districtId: DistrictId;
-  readonly title: string;
-  readonly type: ContestTypes;
+  id: ContestId;
+  districtId: DistrictId;
+  title: string;
+  type: ContestTypes;
 }
 
 /**
@@ -193,12 +193,12 @@ const ContestInternalSchema = z.object({
 });
 export const ContestSchema: z.ZodSchema<Contest> = ContestInternalSchema;
 export interface CandidateContest extends Contest {
-  readonly type: 'candidate';
-  readonly seats: number;
-  readonly candidates: readonly Candidate[];
-  readonly allowWriteIns: boolean;
-  readonly partyId?: PartyId;
-  readonly termDescription?: string;
+  type: 'candidate';
+  seats: number;
+  candidates: Candidate[];
+  allowWriteIns: boolean;
+  partyId?: PartyId;
+  termDescription?: string;
 }
 export const CandidateContestSchema: z.ZodSchema<CandidateContest> =
   ContestInternalSchema.merge(
@@ -257,8 +257,8 @@ export const CandidateContestSchema: z.ZodSchema<CandidateContest> =
   });
 
 export interface YesNoOption {
-  readonly id: Id;
-  readonly label: string;
+  id: Id;
+  label: string;
 }
 export const YesNoOptionSchema: z.ZodSchema<YesNoOption> = z.object({
   id: IdSchema,
@@ -266,10 +266,10 @@ export const YesNoOptionSchema: z.ZodSchema<YesNoOption> = z.object({
 });
 
 export interface YesNoContest extends Contest {
-  readonly type: 'yesno';
-  readonly description: string;
-  readonly yesOption: YesNoOption;
-  readonly noOption: YesNoOption;
+  type: 'yesno';
+  description: string;
+  yesOption: YesNoOption;
+  noOption: YesNoOption;
 }
 export const YesNoContestSchema: z.ZodSchema<YesNoContest> =
   ContestInternalSchema.merge(
@@ -287,7 +287,7 @@ export const AnyContestSchema: z.ZodSchema<AnyContest> = z.union([
   YesNoContestSchema,
 ]);
 
-export type Contests = readonly AnyContest[];
+export type Contests = AnyContest[];
 export const ContestsSchema = z.array(AnyContestSchema).check((ctx) => {
   const contests = ctx.value;
   for (const [index, id] of findDuplicateIds(contests)) {
@@ -328,21 +328,21 @@ export interface NhPrecinctSplitOptions {
 }
 
 export interface PrecinctWithoutSplits {
-  districtIds: readonly DistrictId[];
+  districtIds: DistrictId[];
   id: PrecinctId;
   name: string;
 }
 export interface PrecinctWithSplits {
   id: PrecinctId;
   name: string;
-  splits: readonly PrecinctSplit[];
+  splits: PrecinctSplit[];
 }
 
 export type PrecinctSplitId = Id;
 
 interface PrecinctSplitBase {
   id: PrecinctSplitId;
-  districtIds: readonly DistrictId[];
+  districtIds: DistrictId[];
   name: string;
 }
 export type PrecinctSplit = PrecinctSplitBase & NhPrecinctSplitOptions;
@@ -413,7 +413,7 @@ export const PrecinctsSchema = z
 // Represents a bubble option that should be displayed for selection on a ballot.
 export interface OrderedCandidateOption {
   id: CandidateId;
-  partyIds?: readonly PartyId[];
+  partyIds?:  PartyId[];
 }
 
 export const OrderedCandidateOptionSchema: z.ZodSchema<OrderedCandidateOption> =
@@ -427,13 +427,13 @@ export const BallotStyleIdSchema =
   IdSchema as unknown as z.ZodSchema<BallotStyleId>;
 
 export interface BallotStyle {
-  readonly id: BallotStyleId;
-  readonly groupId: BallotStyleGroupId;
-  readonly precincts: readonly PrecinctId[];
-  readonly districts: readonly DistrictId[];
-  readonly partyId?: PartyId;
-  readonly languages?: readonly string[]; // TODO(kofi): Make required.
-  readonly orderedCandidatesByContest?: Record<
+  id: BallotStyleId;
+  groupId: BallotStyleGroupId;
+  precincts: PrecinctId[];
+  districts: DistrictId[];
+  partyId?: PartyId;
+  languages?:  string[]; // TODO(kofi): Make required.
+  orderedCandidatesByContest?: Record<
     ContestId,
     OrderedCandidateOption[]
   >;
@@ -443,16 +443,16 @@ export type BallotStyleGroupId = string;
 export const BallotStyleGroupIdSchema =
   IdSchema as unknown as z.ZodSchema<BallotStyleGroupId>;
 export interface BallotStyleGroup {
-  readonly id: BallotStyleGroupId;
-  readonly defaultLanguageBallotStyle: BallotStyle;
-  readonly ballotStyles: readonly BallotStyle[];
-  readonly precincts: readonly PrecinctId[];
-  readonly districts: readonly DistrictId[];
-  readonly orderedCandidatesByContest?: Record<
+  id: BallotStyleGroupId;
+  defaultLanguageBallotStyle: BallotStyle;
+  ballotStyles: BallotStyle[];
+  precincts: PrecinctId[];
+  districts: DistrictId[];
+  orderedCandidatesByContest?: Record<
     ContestId,
     OrderedCandidateOption[]
   >;
-  readonly partyId?: PartyId;
+  partyId?: PartyId;
 }
 
 export const BallotStyleSchema: z.ZodSchema<BallotStyle> = z.object({
@@ -484,8 +484,8 @@ export const BallotStylesSchema = z
 export type CountyId = Id;
 export const CountyIdSchema: z.ZodSchema<CountyId> = IdSchema;
 export interface County {
-  readonly id: CountyId;
-  readonly name: string;
+  id: CountyId;
+  name: string;
 }
 export const CountySchema: z.ZodSchema<County> = z.object({
   id: IdSchema,
@@ -536,20 +536,20 @@ export const AdjudicationReasonSchema: z.ZodSchema<AdjudicationReason> =
   z.enum(AdjudicationReason);
 
 export interface GridPositionOption {
-  readonly type: 'option';
-  readonly sheetNumber: number;
-  readonly side: 'front' | 'back';
+  type: 'option';
+  sheetNumber: number;
+  side: 'front' | 'back';
   /**
    * X coordinate for the center of the bubble for this option, relative to the
    * timing mark grid.
    */
-  readonly column: number;
+  column: number;
   /**
    * Y coordinate for the center of the bubble for this option, relative to the
    * timing mark grid.
    */
-  readonly row: number;
-  readonly contestId: ContestId;
+  row: number;
+  contestId: ContestId;
 
   /**
    * Identifying information for the specific option this grid position represents.
@@ -557,8 +557,8 @@ export interface GridPositionOption {
    * may have multiple grid positions / ordered candidate options for the same candidate / option id
    * but different parties.
    */
-  readonly optionId: Id;
-  readonly partyIds?: readonly PartyId[];
+  optionId: Id;
+  partyIds?:  PartyId[];
 }
 export const GridPositionOptionSchema: z.ZodSchema<GridPositionOption> =
   z.object({
@@ -573,28 +573,28 @@ export const GridPositionOptionSchema: z.ZodSchema<GridPositionOption> =
   });
 
 export interface GridPositionWriteIn {
-  readonly type: 'write-in';
-  readonly sheetNumber: number;
-  readonly side: 'front' | 'back';
+  type: 'write-in';
+  sheetNumber: number;
+  side: 'front' | 'back';
   /**
    * X coordinate for the center of the bubble for this option, relative to the
    * timing mark grid.
    */
-  readonly column: number;
+  column: number;
   /**
    * Y coordinate for the center of the bubble for this option, relative to the
    * timing mark grid.
    */
-  readonly row: number;
-  readonly contestId: ContestId;
-  readonly writeInIndex: number;
+  row: number;
+  contestId: ContestId;
+  writeInIndex: number;
   /**
    * The absolute grid coordinates of the area of the ballot where the voter is
    * expected to write the write-in candidate name. We use this to detect
    * unmarked write-ins (when the voter written in a candidate name but didn't
    * fill in the bubble).
    */
-  readonly writeInArea: Rect;
+  writeInArea: Rect;
 }
 export const GridPositionWriteInSchema: z.ZodSchema<GridPositionWriteIn> =
   z.object({
@@ -614,14 +614,14 @@ export const GridPositionSchema: z.ZodSchema<GridPosition> = z.union([
   GridPositionWriteInSchema,
 ]);
 export interface GridLayout {
-  readonly ballotStyleId: BallotStyleId;
+  ballotStyleId: BallotStyleId;
   /**
    * Area in timing mark units around a target mark (i.e. bubble) to consider
    * part of the option for that target mark. This is used to crop the ballot
    * image to show the write-in area for a given grid position.
    */
-  readonly optionBoundsFromTargetMark: Outset;
-  readonly gridPositions: readonly GridPosition[];
+  optionBoundsFromTargetMark: Outset;
+  gridPositions: GridPosition[];
 }
 export const GridLayoutSchema: z.ZodSchema<GridLayout> = z.object({
   ballotStyleId: BallotStyleIdSchema,
@@ -644,23 +644,23 @@ export type ElectionType = (typeof ELECTION_TYPES)[number];
 const ElectionTypeSchema: z.ZodSchema<ElectionType> = z.enum(ELECTION_TYPES);
 
 export interface Election {
-  readonly ballotLayout: BallotLayout;
-  readonly ballotStrings: UiStringsPackage;
-  readonly ballotStyles: readonly BallotStyle[];
-  readonly contests: Contests;
-  readonly county: County;
-  readonly date: DateWithoutTime;
-  readonly districts: readonly District[];
-  readonly gridLayouts?: readonly GridLayout[];
-  readonly id: ElectionId;
-  readonly parties: Parties;
-  readonly precincts: readonly Precinct[];
-  readonly seal: string;
-  readonly signature?: Signature;
-  readonly state: string;
-  readonly title: string;
-  readonly type: ElectionType;
-  readonly additionalHashInput?: Record<string, unknown>;
+  ballotLayout: BallotLayout;
+  ballotStrings: UiStringsPackage;
+  ballotStyles: BallotStyle[];
+  contests: Contests;
+  county: County;
+  date: DateWithoutTime;
+  districts: District[];
+  gridLayouts?:  GridLayout[];
+  id: ElectionId;
+  parties: Parties;
+  precincts: Precinct[];
+  seal: string;
+  signature?: Signature;
+  state: string;
+  title: string;
+  type: ElectionType;
+  additionalHashInput?: Record<string, unknown>;
 }
 export const ElectionSchema: z.ZodSchema<Election> = z
   .object({
@@ -959,10 +959,10 @@ export const ContestOptionIdSchema: z.ZodSchema<ContestOptionId> = z.union([
 ]);
 
 // Votes
-export type CandidateVote = readonly Candidate[];
+export type CandidateVote = Candidate[];
 export const CandidateVoteSchema: z.ZodSchema<CandidateVote> =
   z.array(CandidateSchema);
-export type YesNoVote = readonly YesNoContestOptionId[];
+export type YesNoVote = YesNoContestOptionId[];
 export const YesNoVoteSchema: z.ZodSchema<YesNoVote> = z.array(
   YesNoContestOptionIdSchema
 );
@@ -1170,9 +1170,9 @@ export const MarkInfoSchema: z.ZodSchema<MarkInfo> = z.object({
 
 export interface AdjudicationInfo {
   requiresAdjudication: boolean;
-  enabledReasons: readonly AdjudicationReason[];
-  enabledReasonInfos: readonly AdjudicationReasonInfo[];
-  ignoredReasonInfos: readonly AdjudicationReasonInfo[];
+  enabledReasons: AdjudicationReason[];
+  enabledReasonInfos: AdjudicationReasonInfo[];
+  ignoredReasonInfos: AdjudicationReasonInfo[];
 }
 export const AdjudicationInfoSchema: z.ZodSchema<AdjudicationInfo> = z.object({
   requiresAdjudication: z.boolean(),
@@ -1216,10 +1216,10 @@ export const BatchInfoSchema: z.ZodSchema<BatchInfo> = z.object({
 });
 
 export interface CompletedBallot {
-  readonly ballotHash: string;
-  readonly ballotStyleId: BallotStyleId;
-  readonly precinctId: PrecinctId;
-  readonly votes: VotesDict;
-  readonly isTestMode: boolean;
-  readonly ballotType: BallotType;
+  ballotHash: string;
+  ballotStyleId: BallotStyleId;
+  precinctId: PrecinctId;
+  votes: VotesDict;
+  isTestMode: boolean;
+  ballotType: BallotType;
 }

@@ -8,8 +8,8 @@ import {
 } from './auth';
 
 export interface LoggedOut {
-  readonly status: 'logged_out';
-  readonly reason:
+status: 'logged_out';
+reason:
     | 'card_error'
     | 'certificate_expired'
     | 'certificate_not_yet_valid'
@@ -21,52 +21,52 @@ export interface LoggedOut {
     | 'vx_poll_book_card_not_allowed'
     | 'wrong_election'
     | 'wrong_jurisdiction';
-  readonly cardJurisdiction?: string;
-  readonly cardUserRole?: UserWithCard['role'];
-  readonly machineJurisdiction?: string;
+cardJurisdiction?: string;
+cardUserRole?: UserWithCard['role'];
+machineJurisdiction?: string;
 }
 
 export interface CheckingPin {
-  readonly status: 'checking_pin';
-  readonly user:
+status: 'checking_pin';
+user:
     | VendorUser
     | SystemAdministratorUser
     | ElectionManagerUser
     | PollWorkerUser;
-  readonly error?: true;
-  readonly lockedOutUntil?: Date;
-  readonly wrongPinEnteredAt?: Date;
+error?: true;
+lockedOutUntil?: Date;
+wrongPinEnteredAt?: Date;
 }
 
 export interface VendorLoggedIn {
-  readonly status: 'logged_in';
-  readonly user: VendorUser;
-  readonly sessionExpiresAt: Date;
+status: 'logged_in';
+user: VendorUser;
+sessionExpiresAt: Date;
 }
 
 export interface SystemAdministratorLoggedIn {
-  readonly status: 'logged_in';
-  readonly user: SystemAdministratorUser;
-  readonly sessionExpiresAt: Date;
+status: 'logged_in';
+user: SystemAdministratorUser;
+sessionExpiresAt: Date;
 }
 
 export interface ElectionManagerLoggedIn {
-  readonly status: 'logged_in';
-  readonly user: ElectionManagerUser;
-  readonly sessionExpiresAt: Date;
+status: 'logged_in';
+user: ElectionManagerUser;
+sessionExpiresAt: Date;
 }
 
 export interface PollWorkerLoggedIn {
-  readonly status: 'logged_in';
-  readonly user: PollWorkerUser;
-  readonly sessionExpiresAt: Date;
-  readonly cardlessVoterUser?: CardlessVoterUser;
+status: 'logged_in';
+user: PollWorkerUser;
+sessionExpiresAt: Date;
+cardlessVoterUser?: CardlessVoterUser;
 }
 
 export interface CardlessVoterLoggedIn {
-  readonly status: 'logged_in';
-  readonly user: CardlessVoterUser;
-  readonly sessionExpiresAt: Date;
+status: 'logged_in';
+user: CardlessVoterUser;
+sessionExpiresAt: Date;
 }
 
 export type LoggedIn =

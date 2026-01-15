@@ -51,77 +51,77 @@ export type ColorString = string;
 
 /** CSS color values for various UI features. */
 export interface ColorTheme {
-  readonly background: ColorString;
-  readonly onBackground: ColorString;
-  readonly onBackgroundMuted: ColorString;
+background: ColorString;
+onBackground: ColorString;
+onBackgroundMuted: ColorString;
 
-  readonly container: ColorString;
-  readonly containerLow: ColorString;
-  readonly containerHigh: ColorString;
-  readonly outline: ColorString;
+container: ColorString;
+containerLow: ColorString;
+containerHigh: ColorString;
+outline: ColorString;
 
-  readonly primary: ColorString;
-  readonly onPrimary: ColorString;
-  readonly primaryContainer: ColorString;
+primary: ColorString;
+onPrimary: ColorString;
+primaryContainer: ColorString;
 
-  readonly neutral: ColorString;
-  readonly onNeutral: ColorString;
+neutral: ColorString;
+onNeutral: ColorString;
 
-  readonly danger: ColorString;
-  readonly onDanger: ColorString;
-  readonly dangerContainer: ColorString;
+danger: ColorString;
+onDanger: ColorString;
+dangerContainer: ColorString;
 
-  readonly warningContainer: ColorString;
+warningContainer: ColorString;
 
-  readonly inverseBackground: ColorString;
-  readonly onInverse: ColorString;
-  readonly inverseContainer: ColorString;
-  readonly inversePrimary: ColorString;
-  readonly inverseWarningAccent: ColorString;
+inverseBackground: ColorString;
+onInverse: ColorString;
+inverseContainer: ColorString;
+inversePrimary: ColorString;
+inverseWarningAccent: ColorString;
 
-  readonly dangerAccent: ColorString;
-  readonly warningAccent: ColorString;
-  readonly successAccent: ColorString;
+dangerAccent: ColorString;
+warningAccent: ColorString;
+successAccent: ColorString;
 }
 
 /** Pixel size values for various UI element types. */
 export interface SizeTheme {
-  readonly borderRadiusRem: number;
-  readonly bordersRem: {
-    readonly hairline: number;
-    readonly medium: number;
-    readonly thick: number;
-    readonly thin: number;
+borderRadiusRem: number;
+bordersRem: {
+  hairline: number;
+  medium: number;
+  thick: number;
+  thin: number;
   };
-  readonly fontDefault: number;
-  readonly fontWeight: {
-    readonly bold: number;
-    readonly light: number;
-    readonly regular: number;
-    readonly semiBold: number;
+fontDefault: number;
+fontWeight: {
+  bold: number;
+  light: number;
+  regular: number;
+  semiBold: number;
   };
-  readonly headingsRem: {
-    readonly h1: number;
-    readonly h2: number;
-    readonly h3: number;
-    readonly h4: number;
-    readonly h5: number;
-    readonly h6: number;
+headingsRem: {
+  h1: number;
+  h2: number;
+  h3: number;
+  h4: number;
+  h5: number;
+  h6: number;
   };
-  readonly letterSpacingEm: number;
-  readonly lineHeight: number;
-  readonly minTouchAreaSeparationPx: number;
-  readonly minTouchAreaSizePx: number;
+letterSpacingEm: number;
+lineHeight: number;
+minTouchAreaSeparationPx: number;
+minTouchAreaSizePx: number;
 }
 
 /** UI theme configuration. */
 export interface UiTheme {
-  readonly colorMode: ColorMode;
-  readonly colors: ColorTheme;
-  readonly screenType: ScreenType;
-  readonly sizeMode: SizeMode;
-  readonly sizes: SizeTheme;
-  readonly isVisualModeDisabled: boolean;
+colorMode: ColorMode;
+colors: ColorTheme;
+screenType: ScreenType;
+sizeMode: SizeMode;
+sizes: SizeTheme;
+isVisualModeDisabled: boolean;
 }
 
 export type ColorPalette = Record<string, ColorString>;

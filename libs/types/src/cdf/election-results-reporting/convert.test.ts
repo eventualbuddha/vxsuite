@@ -33,7 +33,7 @@ function makeLanguageString(
 
 interface FindLanguageStringTestSpec {
   testDescription: string;
-  textEntries: readonly ResultsReporting.LanguageString[];
+  textEntries: ResultsReporting.LanguageString[];
   params: LanguageStringQueryParams;
   expected: ResultsReporting.LanguageString | null;
 }

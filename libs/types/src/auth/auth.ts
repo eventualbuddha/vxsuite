@@ -30,35 +30,35 @@ export function constructElectionKey(election: Election): ElectionKey {
 }
 
 export interface VendorUser {
-  readonly role: 'vendor';
-  readonly jurisdiction: string;
+role: 'vendor';
+jurisdiction: string;
 }
 
 export interface SystemAdministratorUser {
-  readonly role: 'system_administrator';
-  readonly jurisdiction: string;
-  readonly programmingMachineType: ProgrammingMachineType;
+role: 'system_administrator';
+jurisdiction: string;
+programmingMachineType: ProgrammingMachineType;
 }
 
 export interface ElectionManagerUser {
-  readonly role: 'election_manager';
-  readonly jurisdiction: string;
-  readonly programmingMachineType: ProgrammingMachineType;
-  readonly electionKey: ElectionKey;
+role: 'election_manager';
+jurisdiction: string;
+programmingMachineType: ProgrammingMachineType;
+electionKey: ElectionKey;
 }
 
 export interface PollWorkerUser {
-  readonly role: 'poll_worker';
-  readonly jurisdiction: string;
-  readonly programmingMachineType: ProgrammingMachineType;
-  readonly electionKey: ElectionKey;
+role: 'poll_worker';
+jurisdiction: string;
+programmingMachineType: ProgrammingMachineType;
+electionKey: ElectionKey;
 }
 
 export interface CardlessVoterUser {
-  readonly role: 'cardless_voter';
-  readonly ballotStyleId: BallotStyleId;
-  readonly precinctId: PrecinctId;
-  readonly sessionId: string;
+role: 'cardless_voter';
+ballotStyleId: BallotStyleId;
+precinctId: PrecinctId;
+sessionId: string;
 }
 
 export type User =

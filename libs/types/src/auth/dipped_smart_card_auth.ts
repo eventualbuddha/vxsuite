@@ -7,8 +7,8 @@ import {
 } from './auth';
 
 export interface LoggedOut {
-  readonly status: 'logged_out';
-  readonly reason:
+status: 'logged_out';
+reason:
     | 'card_error'
     | 'certificate_expired'
     | 'certificate_not_yet_valid'
@@ -21,31 +21,31 @@ export interface LoggedOut {
     | 'vx_poll_book_card_not_allowed'
     | 'wrong_election'
     | 'wrong_jurisdiction';
-  readonly cardJurisdiction?: string;
-  readonly cardUserRole?: UserWithCard['role'];
-  readonly machineJurisdiction?: string;
+cardJurisdiction?: string;
+cardUserRole?: UserWithCard['role'];
+machineJurisdiction?: string;
 }
 
 export interface CheckingPin {
-  readonly status: 'checking_pin';
-  readonly user:
+status: 'checking_pin';
+user:
     | VendorUser
     | SystemAdministratorUser
     | ElectionManagerUser
     | PollWorkerUser;
-  readonly error?: { error: unknown; erroredAt: Date };
-  readonly lockedOutUntil?: Date;
-  readonly wrongPinEnteredAt?: Date;
+error?: { error: unknown; erroredAt: Date };
+lockedOutUntil?: Date;
+wrongPinEnteredAt?: Date;
 }
 
 export interface RemoveCard {
-  readonly status: 'remove_card';
-  readonly user:
+status: 'remove_card';
+user:
     | VendorUser
     | SystemAdministratorUser
     | ElectionManagerUser
     | PollWorkerUser;
-  readonly sessionExpiresAt: Date;
+sessionExpiresAt: Date;
 }
 
 export interface ProgrammableCardReady {
@@ -60,28 +60,28 @@ interface ProgrammableCardNotReady {
 export type ProgrammableCard = ProgrammableCardReady | ProgrammableCardNotReady;
 
 export interface VendorLoggedIn {
-  readonly status: 'logged_in';
-  readonly user: VendorUser;
-  readonly sessionExpiresAt: Date;
+status: 'logged_in';
+user: VendorUser;
+sessionExpiresAt: Date;
 }
 
 export interface SystemAdministratorLoggedIn {
-  readonly status: 'logged_in';
-  readonly user: SystemAdministratorUser;
-  readonly sessionExpiresAt: Date;
-  readonly programmableCard: ProgrammableCard;
+status: 'logged_in';
+user: SystemAdministratorUser;
+sessionExpiresAt: Date;
+programmableCard: ProgrammableCard;
 }
 
 export interface ElectionManagerLoggedIn {
-  readonly status: 'logged_in';
-  readonly user: ElectionManagerUser;
-  readonly sessionExpiresAt: Date;
+status: 'logged_in';
+user: ElectionManagerUser;
+sessionExpiresAt: Date;
 }
 
 export interface PollWorkerLoggedIn {
-  readonly status: 'logged_in';
-  readonly user: PollWorkerUser;
-  readonly sessionExpiresAt: Date;
+status: 'logged_in';
+user: PollWorkerUser;
+sessionExpiresAt: Date;
 }
 
 export type LoggedIn =

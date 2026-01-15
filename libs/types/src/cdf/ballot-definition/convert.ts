@@ -66,7 +66,7 @@ type StringKey = ElectionStringKey | [ElectionStringKey, string];
 function setInternationalizedUiStrings(params: {
   uiStrings: UiStringsPackage;
   stringKey: StringKey;
-  values: readonly Cdf.LanguageString[];
+  values: Cdf.LanguageString[];
 }) {
   const { stringKey, uiStrings, values } = params;
 

@@ -1,8 +1,8 @@
 import { z } from 'zod/v4';
 
 export interface Point {
-  readonly x: number;
-  readonly y: number;
+  x: number;
+  y: number;
 }
 export const PointSchema: z.ZodSchema<Point> = z.object({
   x: z.number(),
@@ -10,8 +10,8 @@ export const PointSchema: z.ZodSchema<Point> = z.object({
 });
 
 export interface Offset {
-  readonly x: number;
-  readonly y: number;
+  x: number;
+  y: number;
 }
 export const OffsetSchema: z.ZodSchema<Offset> = z.object({
   x: z.number(),
@@ -19,10 +19,10 @@ export const OffsetSchema: z.ZodSchema<Offset> = z.object({
 });
 
 export interface Rect {
-  readonly x: number;
-  readonly y: number;
-  readonly width: number;
-  readonly height: number;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 }
 export const RectSchema: z.ZodSchema<Rect> = z.object({
   x: z.number(),
@@ -32,10 +32,10 @@ export const RectSchema: z.ZodSchema<Rect> = z.object({
 });
 
 export interface Outset<T extends number = number> {
-  readonly top: T;
-  readonly right: T;
-  readonly bottom: T;
-  readonly left: T;
+  top: T;
+  right: T;
+  bottom: T;
+  left: T;
 }
 
 export const OutsetSchema: z.ZodSchema<Outset> = z.object({
@@ -45,7 +45,7 @@ export const OutsetSchema: z.ZodSchema<Outset> = z.object({
   left: z.number(),
 });
 
-export type Corners = readonly [
+export type Corners = [
   topLeft: Point,
   topRight: Point,
   bottomLeft: Point,
@@ -59,8 +59,8 @@ export const CornersSchema: z.ZodSchema<Corners> = z.tuple([
 ]);
 
 export interface Size {
-  readonly width: number;
-  readonly height: number;
+  width: number;
+  height: number;
 }
 export const SizeSchema: z.ZodSchema<Size> = z.object({
   width: z.number(),

@@ -21,4 +21,4 @@ export const UiStringAudioClipSchema: z.ZodType<UiStringAudioClip> = z.object({
 /**
  * Audio clip records from the audio clips JSONL file in an election package.
  */
-export type UiStringAudioClips = readonly UiStringAudioClip[];
+export type UiStringAudioClips = UiStringAudioClip[];

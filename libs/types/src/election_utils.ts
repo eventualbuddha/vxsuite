@@ -67,7 +67,7 @@ export function getOrderedCandidatesForContestInBallotStyle({
 }: {
   contest: CandidateContest;
   ballotStyle: BallotStyle | BallotStyleGroup;
-}): readonly Candidate[] {
+}): Candidate[] {
   const candidateOrdering =
     ballotStyle.orderedCandidatesByContest?.[contest.id];
   if (!candidateOrdering) {
@@ -223,7 +223,7 @@ export function findContest({
  */
 export function getContestsFromIds(
   election: Election,
-  contestIds: readonly ContestId[]
+  contestIds: ContestId[]
 ): Contests {
   return Array.from(new Set(contestIds)).map((id) => {
     const contest = election.contests.find((c) => c.id === id);
@@ -452,7 +452,7 @@ export function getContestDistrictName(
 export function vote(
   contests: Contests,
   shorthand: {
-    [key: string]: Vote | string | readonly string[] | Candidate;
+    [key: string]: Vote | string | string[] | Candidate;
   }
 ): VotesDict {
   const votes: VotesDict = {};
@@ -465,7 +465,7 @@ export function vote(
       votes[contest.id] = choice;
     } else if (Array.isArray(choice) && typeof choice[0] === 'string') {
       votes[contest.id] = contest.candidates.filter((c) =>
-        (choice as readonly string[]).includes(c.id)
+        (choice as string[]).includes(c.id)
       );
     } else if (typeof choice === 'string') {
       votes[contest.id] = [find(contest.candidates, (c) => c.id === choice)];

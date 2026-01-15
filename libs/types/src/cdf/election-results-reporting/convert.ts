@@ -43,7 +43,7 @@ export interface LanguageStringQueryParams {
  * @returns The first LanguageString to match the query params.
  */
 export function findLanguageString(
-  textEntries: readonly ResultsReporting.LanguageString[],
+  textEntries: ResultsReporting.LanguageString[],
   { language = 'en', content = /.*/ }: LanguageStringQueryParams
 ): ResultsReporting.LanguageString | null {
   function textContentFilter(entry: ResultsReporting.LanguageString): boolean {
@@ -69,7 +69,7 @@ export function findLanguageString(
  */
 export function findBallotMeasureSelectionWithContent(
   content: RegExp,
-  ballotMeasureSelections: readonly ResultsReporting.BallotMeasureSelection[]
+  ballotMeasureSelections: ResultsReporting.BallotMeasureSelection[]
 ): ResultsReporting.BallotMeasureSelection | undefined {
   return ballotMeasureSelections.find((selection) => {
     const internationalizedText = selection.Selection;
@@ -80,7 +80,7 @@ export function findBallotMeasureSelectionWithContent(
 }
 
 function findTotalVoteCounts(
-  voteCounts: readonly ResultsReporting.VoteCounts[]
+  voteCounts: ResultsReporting.VoteCounts[]
 ): number {
   return find(voteCounts, (vc) => vc.Type === CountItemType.Total).Count;
 }

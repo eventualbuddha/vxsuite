@@ -33,25 +33,25 @@ export enum CastVoteRecordExportFileName {
 }
 
 export interface CastVoteRecordBatchMetadata {
-  readonly id: string;
-  readonly label: string;
+  id: string;
+  label: string;
 
   /**
    * The ordinal number of the batch in the tabulator's sequence of batches in a given election.
    */
-  readonly batchNumber: number;
+  batchNumber: number;
 
   /**
    * The start time of the batch. On a precinct scanner, the start time is when the polls are opened or voting is resumed. On a central scanner, the start time is when the user initiates scanning a batch.
    */
-  readonly startTime: Iso8601Timestamp;
+  startTime: Iso8601Timestamp;
   /**
    * The end time of the batch. On a precinct scanner, the end time is when the polls are closed or voting is paused. On a central scanner, the end time is when a batch scan is complete
    */
-  readonly endTime?: Iso8601Timestamp;
+  endTime?: Iso8601Timestamp;
 
-  readonly sheetCount: number;
-  readonly scannerId: string;
+  sheetCount: number;
+  scannerId: string;
 }
 
 export const CastVoteRecordBatchMetadataSchema: z.ZodSchema<CastVoteRecordBatchMetadata> =

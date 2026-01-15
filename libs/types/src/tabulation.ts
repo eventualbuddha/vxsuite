@@ -17,12 +17,12 @@ export interface ContestResultsMetadata {
 }
 
 type ContestResultsBase = ContestResultsMetadata & {
-  readonly contestId: ContestId;
-  readonly contestType: AnyContest['type'];
+  contestId: ContestId;
+  contestType: AnyContest['type'];
 };
 
 export type YesNoContestResults = ContestResultsBase & {
-  readonly contestType: 'yesno';
+  contestType: 'yesno';
   yesOptionId: ContestOptionId;
   noOptionId: ContestOptionId;
   yesTally: number;
@@ -34,9 +34,9 @@ export type CandidateTally = Candidate & {
 };
 
 export type CandidateContestResults = ContestResultsBase & {
-  readonly contestType: 'candidate';
-  readonly votesAllowed: number;
-  readonly tallies: Record<CandidateId, CandidateTally>;
+  contestType: 'candidate';
+  votesAllowed: number;
+  tallies: Record<CandidateId, CandidateTally>;
 };
 
 /**
@@ -64,24 +64,24 @@ export const VOTING_METHOD_LABELS: Record<VotingMethod, string> = {
  * vote records in the results.
  */
 export interface Filter {
-  readonly ballotStyleGroupIds?: BallotStyleGroupId[];
-  readonly partyIds?: Id[];
-  readonly precinctIds?: PrecinctId[];
-  readonly votingMethods?: VotingMethod[];
-  readonly batchIds?: Id[];
-  readonly scannerIds?: Id[];
+  ballotStyleGroupIds?: BallotStyleGroupId[];
+  partyIds?: Id[];
+  precinctIds?: PrecinctId[];
+  votingMethods?: VotingMethod[];
+  batchIds?: Id[];
+  scannerIds?: Id[];
 }
 
 /**
  * Attributes that always exist for every cast vote record.
  */
 export interface CastVoteRecordAttributes {
-  readonly ballotStyleGroupId: Id;
-  readonly precinctId: PrecinctId;
-  readonly votingMethod: VotingMethod;
-  readonly batchId: Id;
-  readonly scannerId: Id;
-  readonly partyId?: Id;
+  ballotStyleGroupId: Id;
+  precinctId: PrecinctId;
+  votingMethod: VotingMethod;
+  batchId: Id;
+  scannerId: Id;
+  partyId?: Id;
 }
 
 /**
@@ -98,7 +98,7 @@ export const MANUAL_SCANNER_ID = 'NO_SCANNER__MANUAL';
  * included in {@link ElectionResults} to indicate what it is a grouping of.
  */
 export type GroupSpecifier = Partial<{
-  -readonly [K in keyof CastVoteRecordAttributes]: CastVoteRecordAttributes[K];
+  [K in keyof CastVoteRecordAttributes]: CastVoteRecordAttributes[K];
 }>;
 
 /**
@@ -135,8 +135,8 @@ export interface CardCounts {
  * some cast vote record attributes.
  */
 export interface ElectionResults {
-  readonly contestResults: Record<ContestId, ContestResults>;
-  readonly cardCounts: CardCounts;
+  contestResults: Record<ContestId, ContestResults>;
+  cardCounts: CardCounts;
 }
 
 export type GroupKey = string;
@@ -178,9 +178,9 @@ export type ContestMarkScores = Record<ContestOptionId, MarkScore>;
 export type MarkScores = Record<ContestId, ContestMarkScores>;
 
 export type CastVoteRecord = {
-  readonly votes: Votes;
-  readonly card: Card;
-  readonly markScores?: MarkScores /* markScores are not relevant for bmd cvrs */;
+  votes: Votes;
+  card: Card;
+  markScores?: MarkScores /* markScores are not relevant for bmd cvrs */;
 } & CastVoteRecordAttributes;
 
 /**

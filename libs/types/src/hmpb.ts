@@ -71,7 +71,7 @@ export interface BallotPageContestLayout {
   contestId: ContestId;
   bounds: Rect;
   corners: Corners;
-  options: readonly BallotPageContestOptionLayout[];
+  options: BallotPageContestOptionLayout[];
 }
 export const BallotPageContestLayoutSchema: z.ZodSchema<BallotPageContestLayout> =
   z.object({
@@ -84,7 +84,7 @@ export const BallotPageContestLayoutSchema: z.ZodSchema<BallotPageContestLayout>
 export interface BallotPageLayout {
   pageSize: Size;
   metadata: BallotPageMetadata;
-  contests: readonly BallotPageContestLayout[];
+  contests: BallotPageContestLayout[];
 }
 export const BallotPageLayoutSchema: z.ZodSchema<BallotPageLayout> = z.object({
   pageSize: SizeSchema,
@@ -107,7 +107,7 @@ export enum WriteInAreaStatus {
 export const WriteInAreaStatusSchema: z.ZodSchema<WriteInAreaStatus> =
   z.enum(WriteInAreaStatus);
 
-export type SheetOf<T> = readonly [T, T];
+export type SheetOf<T> = [T, T];
 
 /**
  * Helper for mapping sheet-wise data from one format to another.
@@ -199,16 +199,16 @@ export function mapSheet<F extends (...args: unknown[]) => unknown>(
   ...args: [...sheets: Array<SheetOf<unknown>>, fn: F]
 ): SheetOf<unknown> | Promise<SheetOf<unknown>> {
   const fn = assertDefined(args.pop()) as unknown as (
-    ...args: [...pages: readonly unknown[], side: Side, index: 0 | 1]
+    ...args: [...pages: unknown[], side: Side, index: 0 | 1]
   ) => unknown | Promise<unknown>;
   const sheets = args as ReadonlyArray<SheetOf<unknown>>;
   const front = fn(
-    ...(sheets.map((sheet) => sheet[0]) as readonly unknown[]),
+    ...(sheets.map((sheet) => sheet[0]) as unknown[]),
     'front',
     0
   );
   const back = fn(
-    ...(sheets.map((sheet) => sheet[1]) as readonly unknown[]),
+    ...(sheets.map((sheet) => sheet[1]) as unknown[]),
     'back',
     1
   );

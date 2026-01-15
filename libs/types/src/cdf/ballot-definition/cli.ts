@@ -5,9 +5,9 @@ import { safeParseElection } from '../../election_parsing';
 import { convertVxfElectionToCdfBallotDefinition } from './convert';
 
 interface Stdio {
-  readonly stdin: NodeJS.ReadableStream;
-  readonly stdout: NodeJS.WritableStream;
-  readonly stderr: NodeJS.WritableStream;
+  stdin: NodeJS.ReadableStream;
+  stdout: NodeJS.WritableStream;
+  stderr: NodeJS.WritableStream;
 }
 
 /**
@@ -18,7 +18,7 @@ interface Stdio {
  */
 // eslint-disable-next-line @typescript-eslint/require-await
 export async function main(
-  args: readonly string[],
+  args: string[],
   { stdout }: Stdio
 ): Promise<number> {
   const vxfPath = args[2];
