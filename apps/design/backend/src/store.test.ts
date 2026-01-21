@@ -211,7 +211,7 @@ test('Background task processing - task creation and retrieval', async () => {
   const store = testStore.getStore();
   const taskName = 'some_task_name' as TaskName;
 
-  expect(await store.getOldestQueuedBackgroundTask()).toEqual(undefined);
+  expect(await store.claimOldestQueuedBackgroundTask()).toEqual(undefined);
 
   const task1Id = await store.createBackgroundTask(taskName, {
     somePayload: 1,
@@ -220,10 +220,13 @@ test('Background task processing - task creation and retrieval', async () => {
     somePayload: 2,
   });
 
-  expect(await store.getOldestQueuedBackgroundTask()).toEqual({
+  // Claim the first task (atomically gets and starts it)
+  const claimedTask1 = await store.claimOldestQueuedBackgroundTask();
+  expect(claimedTask1).toEqual({
     createdAt: expect.any(Date),
     id: task1Id,
     payload: '{"somePayload":1}',
+    startedAt: expect.any(Date),
     taskName,
   });
 
@@ -231,6 +234,7 @@ test('Background task processing - task creation and retrieval', async () => {
     createdAt: expect.any(Date),
     id: task1Id,
     payload: '{"somePayload":1}',
+    startedAt: expect.any(Date),
     taskName,
   });
   expect(await store.getBackgroundTask(task2Id)).toEqual({
@@ -244,11 +248,11 @@ test('Background task processing - task creation and retrieval', async () => {
   );
 });
 
-test('Background task processing - starting and completing tasks', async () => {
+test('Background task processing - claiming and completing tasks', async () => {
   const store = testStore.getStore();
   const taskName = 'some_task_name' as TaskName;
 
-  expect(await store.getOldestQueuedBackgroundTask()).toEqual(undefined);
+  expect(await store.claimOldestQueuedBackgroundTask()).toEqual(undefined);
 
   const task1Id = await store.createBackgroundTask(taskName, {
     somePayload: 1,
@@ -257,21 +261,26 @@ test('Background task processing - starting and completing tasks', async () => {
     somePayload: 2,
   });
 
-  expect(await store.getOldestQueuedBackgroundTask()).toEqual({
+  // Claim the first task (atomically gets and starts it)
+  const claimedTask1 = await store.claimOldestQueuedBackgroundTask();
+  expect(claimedTask1).toEqual({
     createdAt: expect.any(Date),
     id: task1Id,
     payload: '{"somePayload":1}',
+    startedAt: expect.any(Date),
     taskName,
   });
 
-  // Start a task
-  await store.startBackgroundTask(task1Id);
-  expect(await store.getOldestQueuedBackgroundTask()).toEqual({
+  // After claiming task1, claiming again should get task2
+  const claimedTask2 = await store.claimOldestQueuedBackgroundTask();
+  expect(claimedTask2).toEqual({
     createdAt: expect.any(Date),
     id: task2Id,
     payload: '{"somePayload":2}',
+    startedAt: expect.any(Date),
     taskName,
   });
+
   expect(await store.getBackgroundTask(task1Id)).toEqual({
     createdAt: expect.any(Date),
     id: task1Id,
@@ -282,12 +291,7 @@ test('Background task processing - starting and completing tasks', async () => {
 
   // Complete a task
   await store.completeBackgroundTask(task1Id);
-  expect(await store.getOldestQueuedBackgroundTask()).toEqual({
-    createdAt: expect.any(Date),
-    id: task2Id,
-    payload: '{"somePayload":2}',
-    taskName,
-  });
+  expect(await store.claimOldestQueuedBackgroundTask()).toEqual(undefined);
   expect(await store.getBackgroundTask(task1Id)).toEqual({
     completedAt: expect.any(Date),
     createdAt: expect.any(Date),
@@ -298,9 +302,8 @@ test('Background task processing - starting and completing tasks', async () => {
   });
 
   // Complete a task with an error
-  await store.startBackgroundTask(task2Id);
   await store.completeBackgroundTask(task2Id, 'Whoa!');
-  expect(await store.getOldestQueuedBackgroundTask()).toEqual(undefined);
+  expect(await store.claimOldestQueuedBackgroundTask()).toEqual(undefined);
   expect(await store.getBackgroundTask(task2Id)).toEqual({
     completedAt: expect.any(Date),
     createdAt: expect.any(Date),
@@ -329,10 +332,13 @@ test('Background task processing - requeuing interrupted tasks', async () => {
     somePayload: 4,
   });
 
-  await store.startBackgroundTask(task1Id);
+  // Claim and complete task1
+  await store.claimOldestQueuedBackgroundTask();
   await store.completeBackgroundTask(task1Id);
-  await store.startBackgroundTask(task2Id);
-  await store.startBackgroundTask(task3Id);
+
+  // Claim task2 and task3 but don't complete them (simulating interrupted tasks)
+  await store.claimOldestQueuedBackgroundTask();
+  await store.claimOldestQueuedBackgroundTask();
 
   async function expectTaskToBeQueued(taskId: string): Promise<void> {
     const task = assertDefined(await store.getBackgroundTask(taskId));
