@@ -18,6 +18,7 @@ import { useDevDockRouter } from '@votingworks/dev-dock-backend';
 import { PORT, SCAN_WORKSPACE } from './globals';
 import { Importer } from './importer';
 import { FujitsuScanner, BatchScanner, ScannerMode } from './fujitsu_scanner';
+import { MockBatchScanner } from './mock_batch_scanner';
 import { createWorkspace, Workspace } from './util/workspace';
 import { buildCentralScannerApp } from './app';
 import { getUserRole } from './util/auth';
@@ -82,6 +83,7 @@ export function start({
   resolvedWorkspace.store.cleanupIncompleteBatches();
 
   let resolvedApp = app;
+  let mockBatchScanner: MockBatchScanner | undefined;
   /* istanbul ignore next - @preserve */
   if (!resolvedApp) {
     const auth = new DippedSmartCardAuth({
@@ -105,8 +107,16 @@ export function start({
       getUserRole(auth, resolvedWorkspace)
     );
 
+    mockBatchScanner = isFeatureFlagEnabled(
+      BooleanEnvironmentVariableName.ENABLE_DEV_DOCK
+    )
+      ? new MockBatchScanner()
+      : undefined;
+
     const resolvedBatchScanner =
-      batchScanner ?? new FujitsuScanner({ mode: ScannerMode.Gray, logger });
+      batchScanner ??
+      mockBatchScanner ??
+      new FujitsuScanner({ mode: ScannerMode.Gray, logger });
 
     const resolvedImporter =
       importer ??
@@ -128,7 +138,7 @@ export function start({
     });
   }
 
-  useDevDockRouter(resolvedApp, express, {});
+  useDevDockRouter(resolvedApp, express, { mockBatchScanner });
 
   // Start periodic CPU metrics logging
   startCpuMetricsLogging(baseLogger);

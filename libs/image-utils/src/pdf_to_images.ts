@@ -1,6 +1,9 @@
 import { Buffer } from 'node:buffer';
 import { CanvasGradient, CanvasPattern, ImageData, createCanvas } from 'canvas';
 import type { PDFDocumentProxy } from 'pdfjs-dist';
+import { iter } from '@votingworks/basics';
+import { tmpNameSync } from 'tmp';
+import { writeImageData } from './image_data';
 
 /**
  * A page of a PDF document.
@@ -66,6 +69,42 @@ export async function* pdfToImages(
       page: context.getImageData(0, 0, canvas.width, canvas.height),
     };
   }
+}
+
+/**
+ * Standard scale factor for rendering PDFs at scanner resolution (200 DPI).
+ * PDFs use 72 points per inch as their base unit, so this converts to 200 DPI.
+ */
+export const SCANNER_DPI_SCALE = 200 / 72;
+
+/**
+ * Renders the first two pages of a PDF as image files, representing the front
+ * and back of a scanned ballot sheet. Images are written as PNG files to
+ * temporary paths.
+ *
+ * @param pdfData The raw PDF data. Note: this data is consumed by the
+ *   underlying PDF renderer and will be empty after this function returns.
+ * @returns Paths to the front and back image files as a `[front, back]` tuple.
+ */
+export async function pdfToSheetImageFiles(
+  pdfData: Uint8Array
+): Promise<[string, string]> {
+  const paths = await iter(pdfToImages(pdfData, { scale: SCANNER_DPI_SCALE }))
+    .take(2)
+    .map(async ({ page }) => {
+      const path = tmpNameSync({ postfix: '.png' });
+      await writeImageData(path, page);
+      return path;
+    })
+    .toArray();
+
+  if (paths.length < 2) {
+    throw new Error(
+      `expected PDF to have at least 2 pages, got ${paths.length}`
+    );
+  }
+
+  return [paths[0], paths[1]];
 }
 
 /**

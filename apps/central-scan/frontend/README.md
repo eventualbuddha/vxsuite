@@ -29,35 +29,18 @@ pnpm test
 
 ### Mock Scanning
 
-To scan ballots without scanner hardware, use the `MOCK_SCANNER_FILES`
-environment variable.
+To scan ballots without scanner hardware, enable the dev dock and use its batch
+scanner UI to add PDF ballots. The dev dock is enabled automatically in
+development mode. Each PDF's first two pages are used as the front and back of a
+scanned sheet.
 
-```sh
-# Single batch with single sheet
-MOCK_SCANNER_FILES=front.jpeg,back.jpeg pnpm start
-
-# Single batch with multiple sheets
-MOCK_SCANNER_FILES=front-01.jpeg,back-01.jpeg,front-02.jpeg,back-02.jpeg pnpm start
-
-# Multiple batches with one sheet each (note ",," batch separator)
-MOCK_SCANNER_FILES=front-01.jpeg,back-01.jpeg,,front-02.jpeg,back-02.jpeg pnpm start
-
-# Use a manifest file
-cat <<EOS > manifest
-# First batch (this is a comment)
-front-01.jpeg
-back-01.jpeg
-
-# Second batch
-front-02.jpeg
-back-02.jpeg
-EOS
-MOCK_SCANNER_FILES=@manifest pnpm start
-
-# Use an election backup file
-./bin/extract-backup /path/to/election-backup.zip
-MOCK_SCANNER_FILES=@/path/to/election-backup/manifest pnpm start
-```
+1. Start the app with the dev dock enabled (the default in development):
+   ```sh
+   pnpm start
+   ```
+2. Open the dev dock (the handle at the top of the screen).
+3. Use the **Batch Scanner** controls to add ballot PDFs and then initiate a
+   scan from the app UI.
 
 ### Testing Adjudication
 

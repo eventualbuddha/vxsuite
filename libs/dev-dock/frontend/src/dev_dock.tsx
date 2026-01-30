@@ -750,6 +750,56 @@ const ScannerButton = styled.button`
   }
 `;
 
+function BatchScannerMockControl() {
+  const queryClient = useQueryClient();
+  const apiClient = useApiClient();
+  const getSheetCountQuery = useQuery(
+    ['batchScannerGetSheetCount'],
+    () => apiClient.batchScannerGetSheetCount(),
+    { refetchInterval: 1000 }
+  );
+  const addSheetMutation = useMutation(apiClient.batchScannerAddSheet, {
+    onSuccess: async () =>
+      await queryClient.invalidateQueries(['batchScannerGetSheetCount']),
+  });
+  const clearSheetsMutation = useMutation(apiClient.batchScannerClearSheets, {
+    onSuccess: async () =>
+      await queryClient.invalidateQueries(['batchScannerGetSheetCount']),
+  });
+
+  const sheetCount = getSheetCountQuery.data ?? 0;
+
+  return (
+    <div>
+      <strong>Batch Scanner:</strong>{' '}
+      <ScannerButton
+        onClick={async () => {
+          const dialogResult = await assertDefined(
+            window.kiosk
+          ).showOpenDialog({
+            properties: ['openFile'],
+            filters: [{ name: '', extensions: ['pdf'] }],
+          });
+          if (dialogResult.canceled) return;
+          const selectedPath = dialogResult.filePaths[0];
+          if (selectedPath) {
+            addSheetMutation.mutate({ path: selectedPath });
+          }
+        }}
+      >
+        Add Ballot
+      </ScannerButton>{' '}
+      <ScannerButton
+        onClick={() => clearSheetsMutation.mutate()}
+        disabled={sheetCount === 0}
+      >
+        Clear
+      </ScannerButton>{' '}
+      <span>{sheetCount} sheet(s) queued</span>
+    </div>
+  );
+}
+
 function PdiScannerMockControl() {
   const apiClient = useApiClient();
   const getSheetStatusQuery = useQuery(
@@ -955,6 +1005,7 @@ function DevDock(props: { enableAccessibleNav?: boolean }) {
             <FujitsuPrinterMockControl />
           )}
           {mockSpec.mockPdiScanner && <PdiScannerMockControl />}
+          {mockSpec.mockBatchScanner && <BatchScannerMockControl />}
         </Row>
       </Content>
       <Handle id="handle" onClick={() => setIsOpen(!isOpen)}>

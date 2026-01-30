@@ -31,7 +31,11 @@ import {
 import { getMockFilePrinterHandler } from '@votingworks/printing';
 import { writeFile } from 'node:fs/promises';
 import { MockScanner, MockSheetStatus } from '@votingworks/pdi-scanner';
-import { pdfToImages } from '@votingworks/image-utils';
+import {
+  pdfToImages,
+  pdfToSheetImageFiles,
+  SCANNER_DPI_SCALE,
+} from '@votingworks/image-utils';
 import { execFile } from './utils';
 
 export type DevDockUserRole = Exclude<UserRole, 'cardless_voter'>;
@@ -93,9 +97,16 @@ function readDevDockFileContents(devDockFilePath: string): DevDockFileContents {
   ) as DevDockFileContents;
 }
 
+export interface MockBatchScannerControl {
+  addSheet(frontPath: string, backPath: string): void;
+  clearSheets(): void;
+  getSheetCount(): number;
+}
+
 export interface MockSpec {
   printerConfig?: PrinterConfig | 'fujitsu';
   mockPdiScanner?: MockScanner;
+  mockBatchScanner?: MockBatchScannerControl;
   // Optional hardware mocks provided by the host app
   getBarcodeConnected?: () => boolean;
   setBarcodeConnected?: (connected: boolean) => void;
@@ -109,6 +120,7 @@ interface SerializableMockSpec
   extends Omit<
     MockSpec,
     | 'mockPdiScanner'
+    | 'mockBatchScanner'
     | 'setBarcodeConnected'
     | 'setAccessibleControllerConnected'
     | 'setPatInputConnected'
@@ -117,6 +129,7 @@ interface SerializableMockSpec
     | 'getPatInputConnected'
   > {
   mockPdiScanner?: boolean;
+  mockBatchScanner?: boolean;
   hasBarcodeMock?: boolean;
   hasPatInputMock?: boolean;
   hasAccessibleControllerMock?: boolean;
@@ -184,6 +197,7 @@ function buildApi(devDockDir: string, mockSpec: MockSpec) {
       return {
         printerConfig: mockSpec.printerConfig,
         mockPdiScanner: Boolean(mockSpec.mockPdiScanner),
+        mockBatchScanner: Boolean(mockSpec.mockBatchScanner),
         hasBarcodeMock:
           Boolean(mockSpec.getBarcodeConnected) &&
           Boolean(mockSpec.setBarcodeConnected),
@@ -343,7 +357,7 @@ function buildApi(devDockDir: string, mockSpec: MockSpec) {
 
     async pdiScannerInsertSheet(input: { path: string }): Promise<void> {
       const pdfData = Uint8Array.from(fs.readFileSync(input.path));
-      const images = await iter(pdfToImages(pdfData, { scale: 200 / 72 }))
+      const images = await iter(pdfToImages(pdfData, { scale: SCANNER_DPI_SCALE }))
         .map(({ page }) => page)
         .toArray();
       assertDefined(mockSpec.mockPdiScanner).insertSheet(
@@ -353,6 +367,20 @@ function buildApi(devDockDir: string, mockSpec: MockSpec) {
 
     pdiScannerRemoveSheet(): void {
       assertDefined(mockSpec.mockPdiScanner).removeSheet();
+    },
+
+    async batchScannerAddSheet(input: { path: string }): Promise<void> {
+      const pdfData = Uint8Array.from(fs.readFileSync(input.path));
+      const [frontPath, backPath] = await pdfToSheetImageFiles(pdfData);
+      assertDefined(mockSpec.mockBatchScanner).addSheet(frontPath, backPath);
+    },
+
+    batchScannerGetSheetCount(): number {
+      return assertDefined(mockSpec.mockBatchScanner).getSheetCount();
+    },
+
+    batchScannerClearSheets(): void {
+      assertDefined(mockSpec.mockBatchScanner).clearSheets();
     },
   });
 }
