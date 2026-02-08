@@ -1,10 +1,10 @@
 use image::{EncodableLayout, GrayImage};
 use types_rs::geometry::{PixelUnit, Point, Rect};
-use zbar_rust::{ZBarImageScanResult, ZBarImageScanner, ZBarSymbolType};
+use zedbar::{DecoderConfig, Image, Scanner, SymbolType, config};
 
 use super::detect::{get_detection_areas, Detected, DetectionArea, Detector, Error, Result};
 
-/// Uses the `zbar` QR code library to detect a QR code in the given ballot
+/// Uses the `zedbar` QR code library to detect a QR code in the given ballot
 /// image. Crops the image to improve performance.
 pub fn detect(img: &GrayImage) -> Result {
     let detection_areas = get_detection_areas(img);
@@ -12,17 +12,15 @@ pub fn detect(img: &GrayImage) -> Result {
     for area in detection_areas {
         match scan_image_for_qr_codes(area.image()) {
             Ok(qr_codes) => {
-                for qr_code in qr_codes {
-                    if qr_code.symbol_type == ZBarSymbolType::ZBarQRCode {
-                        let bounds = get_original_bounds(area.origin(), &qr_code);
-                        return Ok(Detected::new(
-                            Detector::Zbar,
-                            detection_area_rects,
-                            qr_code.data,
-                            bounds,
-                            area.orientation(),
-                        ));
-                    }
+                for (data, bounds) in qr_codes {
+                    let bounds = offset_bounds(area.origin(), &bounds);
+                    return Ok(Detected::new(
+                        Detector::Zbar,
+                        detection_area_rects,
+                        data,
+                        bounds,
+                        area.orientation(),
+                    ));
                 }
             }
             Err(e) => {
@@ -39,41 +37,30 @@ pub fn detect(img: &GrayImage) -> Result {
     })
 }
 
-/// Configures a `zbar` scanner to only look for QR codes and returns the
+/// Configures a `zedbar` scanner to only look for QR codes and returns the
 /// results of the scan.
 fn scan_image_for_qr_codes(
     image: &GrayImage,
-) -> std::result::Result<Vec<ZBarImageScanResult>, &'static str> {
-    let mut scanner = ZBarImageScanner::new();
-    scanner.set_config(
-        ZBarSymbolType::ZBarNone,
-        zbar_rust::ZBarConfig::ZBarCfgEnable,
-        0,
-    )?;
-    scanner.set_config(
-        ZBarSymbolType::ZBarQRCode,
-        zbar_rust::ZBarConfig::ZBarCfgEnable,
-        1,
-    )?;
-    scanner.scan_y800(image.as_bytes(), image.width(), image.height())
+) -> std::result::Result<Vec<(Vec<u8>, Rect)>, zedbar::Error> {
+    let config = DecoderConfig::new().enable(config::QrCode);
+    let mut scanner = Scanner::with_config(config);
+    let mut img = Image::from_gray(image.as_bytes(), image.width(), image.height())?;
+    let symbols = scanner.scan(&mut img);
+    Ok(symbols
+        .into_iter()
+        .filter(|s| s.symbol_type() == SymbolType::QrCode)
+        .map(|s| {
+            let bounds = Rect::new(0, 0, image.width(), image.height());
+            (s.data().to_vec(), bounds)
+        })
+        .collect())
 }
 
-fn get_original_bounds(origin: Point<PixelUnit>, qr_code: &ZBarImageScanResult) -> Rect {
-    let mut min_x = qr_code.points.first().map_or(0, |(x, _)| *x);
-    let mut min_y = qr_code.points.first().map_or(0, |(_, y)| *y);
-    let mut max_x = min_x;
-    let mut max_y = min_y;
-
-    for (x, y) in &qr_code.points {
-        min_x = min_x.min(*x);
-        min_y = min_y.min(*y);
-        max_x = max_x.max(*x);
-        max_y = max_y.max(*y);
-    }
+fn offset_bounds(origin: Point<PixelUnit>, bounds: &Rect) -> Rect {
     Rect::new(
-        origin.x as i32 + min_x,
-        origin.y as i32 + min_y,
-        (max_x - min_x + 1) as u32,
-        (max_y - min_y + 1) as u32,
+        origin.x as i32 + bounds.left(),
+        origin.y as i32 + bounds.top(),
+        bounds.width(),
+        bounds.height(),
     )
 }

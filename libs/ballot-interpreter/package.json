@@ -35,7 +35,7 @@
     "@votingworks/ballot-encoder": "workspace:*",
     "@votingworks/basics": "workspace:*",
     "@votingworks/image-utils": "workspace:*",
-    "@votingworks/qrdetect": "^1.0.1",
+    "zedbar": "^0.2.0",
     "@votingworks/test-utils": "workspace:*",
     "@votingworks/types": "workspace:*",
     "@votingworks/utils": "workspace:*",
