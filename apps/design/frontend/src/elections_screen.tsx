@@ -1,5 +1,5 @@
 import { unique } from '@votingworks/basics';
-import { H1, MainContent, Table } from '@votingworks/ui';
+import { Button, H1, MainContent, Table } from '@votingworks/ui';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -53,6 +53,23 @@ export function LinkCell(
   );
 }
 
+function EditElectionButton({
+  election,
+}: {
+  election: ElectionListing;
+}): React.ReactNode {
+  const history = useHistory();
+  return (
+    <Button
+      icon="Edit"
+      onPress={() => history.push(`/elections/${election.electionId}`)}
+      aria-label={`Edit ${election.title || 'Untitled Election'}`}
+    >
+      Edit
+    </Button>
+  );
+}
+
 function ElectionsList({
   elections,
   hasMultipleJurisdictions,
@@ -92,6 +109,7 @@ function ElectionsList({
 
             <td>
               <Row style={{ justifyContent: 'flex-end' }}>
+                <EditElectionButton election={election} />
                 <CloneElectionButton election={election} />
               </Row>
             </td>
